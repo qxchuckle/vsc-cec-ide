@@ -1,7 +1,7 @@
 {
   "name": "cec-ide",
-  "displayName": "",
-  "description": "",
+  "displayName": "cec-ide",
+  "description": "cec-ide",
   "publisher": "qcqx",
   "repository": {
     "type": "git",
