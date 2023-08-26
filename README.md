@@ -31,11 +31,3 @@
 
 ![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/9e663223-5fc2-47f2-bc19-2f65ecb5be15)
 
-
-
-## 实现100%国产化
-
-1. 将仓库内的extensions.zip下载下来。
-2. 将文件解压至vsc安装目录下的\resources\app\extensions目录。
-3. 关闭vscode，此时你将获得一个自主可控的IDE。
-
