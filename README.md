@@ -1,6 +1,8 @@
 # CEC-IDE
 
-国产化你的vscode
+国产化你的VSCODE
+
+![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/94f67727-fafc-44e0-8558-eb0da3152d95)
 
 **命令：**
 1. CEC-IDE 进行国产化
