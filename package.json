@@ -2,13 +2,14 @@
   "name": "cec-ide",
   "displayName": "",
   "description": "",
+  "publisher": "qcqx",
   "repository": {
     "type": "git",
     "url": "https://github.com/qxchuckle/vsc-cec-ide.git"
   },
   "version": "0.0.4",
   "engines": {
-    "vscode": "^1.38.0"
+    "vscode": "^1.70.0"
   },
   "categories": [
     "Other"
@@ -36,7 +37,7 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/vscode": "^1.38.0",
+    "@types/vscode": "^1.70.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
