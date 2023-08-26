@@ -1,0 +1,38 @@
+{
+  "name": "cec-ide",
+  "displayName": "",
+  "description": "",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.38.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "cec-ide.cec-ide",
+        "title": "CEC-IDE"
+      },
+      {
+        "command": "cec-ide.cec-ide-restore",
+        "title": "CEC-IDE-RESTORE"
+      }
+    ]
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.38.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "eslint": "^8.47.0",
+    "glob": "^10.3.3",
+    "mocha": "^10.2.0",
+    "typescript": "^5.1.6",
+    "@vscode/test-electron": "^2.3.4"
+  }
+}
