@@ -36,9 +36,9 @@ function injectionCSS(){
 	min-width: 90px;
 	display: flex;
 	background-repeat: no-repeat;
-	background-position: 20%;
+	background-position: 25%;
 	background-size: 18px;
-	transform: scale(1.2);
+	transform: scale(1.4);
 	flex-direction: row;
 	flex-wrap: nowrap;
 	align-items: center;
@@ -51,6 +51,7 @@ function injectionCSS(){
 	width: fit-content;
 	margin: 0;
 	padding: 0;
+	transform: scale(0.8);
 }
 .monaco-workbench .part.titlebar>.titlebar-container>.menubar{
 	margin-left: 15px;
