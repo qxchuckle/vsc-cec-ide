@@ -43,6 +43,7 @@ function injectionCSS(){
 	flex-wrap: nowrap;
 	align-items: center;
 	justify-content: flex-end;
+	font-weight: bolder;
 }
 .monaco-workbench .part.titlebar>.titlebar-container>.window-appicon:not(.codicon)::after{
 	content: "CEC-IDE";
