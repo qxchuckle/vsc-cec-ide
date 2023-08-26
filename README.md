@@ -6,3 +6,4 @@
 1. CEC-IDE 进行国产化
 2. CEC-IDE-RESTORE 去除国产化
 
+提示code损坏就装Fix VSCode Checksums插件，然后执行Fix Checksums: Apply
