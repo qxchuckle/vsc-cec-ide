@@ -13,6 +13,9 @@
 提示code损坏就装Fix VSCode Checksums插件，然后执行Fix Checksums: Apply
 
 ## VSC图标修改
+
+![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/984daf13-e4e9-4658-b44a-caa97e57ecba)
+
 软件的图标修改插件做不到
 
 请下载仓库内 **CEC-IDE.ico** 自行右键-属性-更改图标
