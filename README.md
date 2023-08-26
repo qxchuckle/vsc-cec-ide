@@ -7,10 +7,12 @@
 下载插件vsix请前往[releases](https://github.com/qxchuckle/vsc-cec-ide/releases)
 
 **命令：**
-1. CEC-IDE 进行国产化
-2. CEC-IDE-RESTORE 去除国产化
+1. `CEC-IDE` 进行国产化
+2. `CEC-IDE-RESTORE` 去除国产化
 
 提示code损坏就装Fix VSCode Checksums插件，然后执行Fix Checksums: Apply
+
+**注意:**不要多次执行 `CEC-IDE`，除了首次，后续执行 `CEC-IDE` 前请先执行 `CEC-IDE-RESTORE`。若没能国产化，请提 Issues。
 
 ## VSC图标修改
 
