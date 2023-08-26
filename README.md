@@ -22,11 +22,12 @@
 
 请下载仓库内 **CEC-IDE.ico** 自行右键-属性-更改图标
 
-## 你说得对，但这叫自主创新
+## 这下自主创新了
 
-![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/ae38e024-1b03-4cd2-845d-c78686c5daa9)
+![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/b411bd0f-8289-4e11-953a-e550a42755d8)
 
-![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/655da0bf-802c-4bf1-947a-d783c96d6bf0)
+![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/9e663223-5fc2-47f2-bc19-2f65ecb5be15)
+
 
 
 
