@@ -11,7 +11,7 @@
 2. `CEC-IDE-RESTORE` 去除国产化
 
 **注意:**
-1. 不要多次执行 `CEC-IDE`，除了首次，后续执行 `CEC-IDE` 前请先执行 `CEC-IDE-RESTORE`。若没能国产化，请提 Issues。
+1. 最好不要多次执行 `CEC-IDE`，除了首次，后续执行 `CEC-IDE` 前请先执行 `CEC-IDE-RESTORE`。若没能国产化，请提 Issues。
 2. 提示code损坏请装 Fix VSCode Checksums 插件，然后执行 Fix Checksums: Apply 命令
 
 ## VSC图标修改
