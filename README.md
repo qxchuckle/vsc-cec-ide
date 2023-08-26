@@ -2,7 +2,7 @@
 
 国产化你的VSCODE
 
-![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/94f67727-fafc-44e0-8558-eb0da3152d95)
+![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/e78c4a3a-f8b7-47d0-9971-fdc4ffff2ed8)
 
 下载插件vsix请前往[releases](https://github.com/qxchuckle/vsc-cec-ide/releases)
 
