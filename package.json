@@ -2,6 +2,10 @@
   "name": "cec-ide",
   "displayName": "",
   "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qxchuckle/vsc-cec-ide.git"
+  },
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.38.0"
