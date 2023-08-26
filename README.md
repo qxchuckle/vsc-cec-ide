@@ -6,7 +6,7 @@
 
 插件已上架VSCode插件市场[CEC-IDE](https://marketplace.visualstudio.com/items?itemName=qcqx.cec-ide)
 
-下载vsix请前往[releases](https://github.com/qxchuckle/vsc-cec-ide/releases)
+下载vsix可前往[releases](https://github.com/qxchuckle/vsc-cec-ide/releases)
 
 **命令：**
 1. `CEC-IDE` 进行国产化
