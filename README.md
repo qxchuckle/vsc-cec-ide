@@ -21,3 +21,12 @@
 软件的图标修改插件做不到
 
 请下载仓库内 **CEC-IDE.ico** 自行右键-属性-更改图标
+
+## 你说得对，但这叫自主创新
+
+![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/ae38e024-1b03-4cd2-845d-c78686c5daa9)
+
+![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/655da0bf-802c-4bf1-947a-d783c96d6bf0)
+
+
+
