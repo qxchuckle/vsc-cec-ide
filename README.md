@@ -4,6 +4,8 @@
 
 ![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/e78c4a3a-f8b7-47d0-9971-fdc4ffff2ed8)
 
+English document at the end of the text
+
 插件已上架VSCode插件市场[CEC-IDE](https://marketplace.visualstudio.com/items?itemName=qcqx.cec-ide)
 
 下载vsix可前往[releases](https://github.com/qxchuckle/vsc-cec-ide/releases)
