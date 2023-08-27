@@ -1,8 +1,11 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
+import { SidebarProvider } from "./SidebarProvider";
 
 export function activate(context: vscode.ExtensionContext) {
+
+	sidebarInit(context);
 
 	let mainCommand = vscode.commands.registerCommand('cec-ide.cec-ide', () => {
 		injectionCSS(context);
@@ -31,9 +34,9 @@ async function injectionCSS(context: vscode.ExtensionContext) {
 			console.error(err);
 			return;
 		}
-		const logoImg = await readImageAsBase64(path.join(extensionPath, 'images', 'CEC-IDE.ico'));
-		const backImg = await readImageAsBase64(path.join(extensionPath, 'images', 'back-img.png'));
-		const cecImg = await readImageAsBase64(path.join(extensionPath, 'images', 'cec-img.webp'));
+		const logoImg = await readImageAsBase64(path.join(extensionPath, 'resource', 'images', 'CEC-IDE.ico'));
+		const backImg = await readImageAsBase64(path.join(extensionPath, 'resource', 'images', 'back-img.png'));
+		const cecImg = await readImageAsBase64(path.join(extensionPath, 'resource', 'images', 'cec-img.webp'));
 		const newCssCode = `
 .monaco-workbench.monaco-workbench .part.titlebar .titlebar-container .window-appicon {
 	background-image: url(${logoImg})!important;
@@ -144,3 +147,13 @@ async function readImageAsBase64(imagePath: string): Promise<string> {
 		throw err;
 	}
 }
+
+function sidebarInit(context: vscode.ExtensionContext) {
+	const sidebarPanel = new SidebarProvider(context.extensionUri, 'cec-sidebar-main.html', 'cec-sidebar-main.css', 'cec-sidebar-main.js');
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider("cec-sidebar-main", sidebarPanel)
+  );
+}
+
+
+

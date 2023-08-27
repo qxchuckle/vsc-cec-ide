@@ -16,8 +16,28 @@
   ],
   "activationEvents": [],
   "main": "./out/extension.js",
-  "icon": "images/CEC-IDE.png",
+  "icon": "resource/images/CEC-IDE.png",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "cec-ide",
+          "title": "CEC-IDE",
+          "icon": "./resource/images/CEC-IDE.svg"
+        }
+      ]
+    },
+    "views": {
+      "cec-ide": [
+        {
+          "id": "cec-sidebar-main",
+          "name": "主界面",
+          "icon": "./resource/images/CEC-IDE.svg",
+          "type": "webview",
+          "contextualTitle": "主界面"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "cec-ide.cec-ide",
