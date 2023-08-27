@@ -30,7 +30,7 @@ English document at the end of the text
 
 ## 这下自主创新了
 
-![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/b411bd0f-8289-4e11-953a-e550a42755d8)
+![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/11040853-0fc0-4030-aabe-54294f7e3934)
 
 ![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/9e663223-5fc2-47f2-bc19-2f65ecb5be15)
 
