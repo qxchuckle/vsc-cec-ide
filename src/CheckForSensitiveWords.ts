@@ -6,7 +6,7 @@ const diagnosticCollection = vscode.languages.createDiagnosticCollection('sensit
 export function checkForSensitiveWords(editor: vscode.TextEditor, mint: Mint) {
   const document = editor.document;
   const text = document.getText();
-  const sensitiveWords = mint.filter(text).words;
+  const sensitiveWords = new Set(mint.filter(text).words); // fix: https://github.com/qxchuckle/vsc-cec-ide/issues/25 把敏感词的列表转成 Set 来去重，防止每个词被提示多次
   const diagnostics: vscode.Diagnostic[] = [];
   
   // 使用正则表达式来匹配所有敏感词的出现位置
