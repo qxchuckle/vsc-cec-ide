@@ -35,11 +35,14 @@ English document at the end of the text
 
 ![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/9e663223-5fc2-47f2-bc19-2f65ecb5be15)
 
-![image](https://github.com/qxchuckle/vsc-cec-ide/assets/102860926/da64d897-b469-4938-bfdc-d0746517a161)
-
-![image](https://github.com/qxchuckle/vsc-cec-ide/assets/102860926/a7a0f63a-8c28-4ad5-9d20-1dc00d51e1a6)
-
 接下来，本项目将进一步聚焦解决数字产业核心技术的“卡脖子”难题，牵住数字关键核心技术自主创新这个“牛鼻子”，强化自主创新项目整合，善用GITEE建设形成的人才聚集效应，切实提高数字关键核心技术创新能力，持续彰显科技创新示范效应。
+
+## 实用功能
+1. **敏感词检测**  
+在任意文件，右键，点击敏感词检测，将会持续检测该文件是否有敏感词，若文件关闭或没有敏感词，则停止检测。
+
+明感词来源：[tencent-sensitive-words](https://github.com/cjh0613/tencent-sensitive-words) 【有删改】
+
 
 ## CEC-IDE English Document
 
@@ -58,3 +61,8 @@ The plugin has been launched in the VSCode plugin market[CEC-IDE](https://market
 
 Next, this project will further focus on solving the "bottleneck" problem of core technologies in the digital industry, holding onto the "bull nose" of independent innovation in digital key core technologies, strengthening the integration of independent innovation projects, making good use of the talent aggregation effect formed by the construction of GITEE, effectively improving the innovation ability of digital key core technologies, and continuously demonstrating the demonstration effect of technological innovation.
 
+## Practical functions
+1. **Sensitive word detection for Chinese characteristics**  
+In any file, right-click and click on Sensitive Word Detection to continuously detect whether the file has sensitive words. If the file is closed or does not have sensitive words, detection will stop.
+
+Source of Minggan words: [tense sensitive words](https://github.com/cjh0613/tencent-sensitive-words) with deletion and modification
