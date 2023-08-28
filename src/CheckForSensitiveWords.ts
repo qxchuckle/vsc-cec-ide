@@ -79,7 +79,7 @@ export function checkForSensitiveWords(editor: vscode.TextEditor, mint: Mint) {
       const diagnostic = new vscode.Diagnostic(range, '敏感词', vscode.DiagnosticSeverity.Warning);
       diagnostic.source = '敏感词检测';
       diagnostic.relatedInformation = [
-        new vscode.DiagnosticRelatedInformation(new vscode.Location(document.uri, range), '这个词涉及了色情、政治、暴力等内容')
+        new vscode.DiagnosticRelatedInformation(new vscode.Location(document.uri, range), `${word}`)
       ];
 
       diagnostics.push(diagnostic);
