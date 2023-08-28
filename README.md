@@ -49,7 +49,8 @@ The plugin has been launched in the VSCode plugin market[CEC-IDE](https://market
 
 **Attention:**
 1. It is best not to execute `CEC-IDE` multiple times. Except for the first time, please execute `CEC-IDE RESTORE` before executing `CEC-IDE` in the future. If localization is not possible, please mention Issues.
-2. If the code is damaged, please install the [Fix VSCode Checksums](https://marketplace.visualstudio.com/items?itemName=lehni.vscode-fix-checksums) plugin and execute the `Fix Checksums: Apply` command
+2. If the code is damaged, please install the [Fix VSCode Checksums](https://marketplace.visualstudio.com/items?itemName=lehni.vscode-fix-checksums) plugin and execute the `Fix Checksums: Apply` command.
+3. Please ensure to run VSCode as an administrator.
 
 Next, this project will further focus on solving the "bottleneck" problem of core technologies in the digital industry, holding onto the "bull nose" of independent innovation in digital key core technologies, strengthening the integration of independent innovation projects, making good use of the talent aggregation effect formed by the construction of GITEE, effectively improving the innovation ability of digital key core technologies, and continuously demonstrating the demonstration effect of technological innovation.
 
