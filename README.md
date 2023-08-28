@@ -10,7 +10,7 @@ English document at the end of the text
 
 下载vsix可前往[releases](https://github.com/qxchuckle/vsc-cec-ide/releases)
 
-**命令：**
+**命令：** Ctrl+Shift+P 打开命令中心
 1. `CEC-IDE` 进行国产化
 2. `CEC-IDE-RESTORE` 去除国产化
 
