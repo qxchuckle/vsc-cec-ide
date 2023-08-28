@@ -2,20 +2,41 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 import { SidebarProvider } from "./SidebarProvider";
+import { checkForSensitiveWords } from './CheckForSensitiveWords';
+import Mint from 'mint-filter'
 
 export function activate(context: vscode.ExtensionContext) {
 
-	sidebarInit(context);
+  sidebarInit(context);
 
-	const mainCommand = vscode.commands.registerCommand('cec-ide.cec-ide', () => {
+  fs.readFile(path.join(context.extensionPath, 'resource', 'text', 'SensitiveWords.txt'), 'utf-8', (err, data) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    let sensitiveWordsArray = data.split('\n').map(word => word.trim());
+    const mint = new Mint(sensitiveWordsArray)
+
+    let markCommand = vscode.commands.registerCommand('cec-ide.mark-sensitive-words', () => {
+      const editor = vscode.window.activeTextEditor;
+      if (editor) {
+        checkForSensitiveWords(editor, mint);
+    } else {
+        vscode.window.showErrorMessage('No active text editor.');
+    }
+    });
+    context.subscriptions.push(markCommand);
+  });
+
+  const mainCommand = vscode.commands.registerCommand('cec-ide.cec-ide', () => {
 		injectionCSS(context);
 	});
 
-	const restoreCommand = vscode.commands.registerCommand('cec-ide.cec-ide-restore', () => {
-		restoreCSS();
-	});
+  const restoreCommand = vscode.commands.registerCommand('cec-ide.cec-ide-restore', () => {
+    restoreCSS();
+  });
 
-	context.subscriptions.push(mainCommand, restoreCommand);
+  context.subscriptions.push(mainCommand, restoreCommand);
 }
 
 export function deactivate() { }
@@ -157,6 +178,4 @@ function sidebarInit(context: vscode.ExtensionContext) {
     vscode.window.registerWebviewViewProvider("cec-sidebar-main", sidebarPanel)
   );
 }
-
-
 
