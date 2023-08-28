@@ -62,10 +62,10 @@
     },
     "keybindings": [
       {
-      "command": "cec-ide.mark-sensitive-words",
-      "key": "alt+m",
-      "mac": "alt+m",
-      "when": "editorTextFocus"
+        "command": "cec-ide.mark-sensitive-words",
+        "key": "alt+m",
+        "mac": "alt+m",
+        "when": "editorTextFocus"
       }
     ]
   },

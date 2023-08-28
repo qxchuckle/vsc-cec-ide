@@ -8,17 +8,33 @@ export function checkForSensitiveWords(editor: vscode.TextEditor, mint: Mint) {
   const text = document.getText();
   const sensitiveWords = mint.filter(text).words;
   const diagnostics: vscode.Diagnostic[] = [];
+  
+  // 使用正则表达式来匹配所有敏感词的出现位置
   for (const word of sensitiveWords) {
-    const startPos = document.positionAt(text.indexOf(word));
-    const endPos = document.positionAt(text.indexOf(word) + word.length);
-    const range = new vscode.Range(startPos, endPos);
-    const diagnostic = new vscode.Diagnostic(range, '敏感词', vscode.DiagnosticSeverity.Warning);
-    diagnostic.source = '敏感词检测';
-    diagnostic.relatedInformation = [
-      new vscode.DiagnosticRelatedInformation(new vscode.Location(document.uri, range), '这个词涉及了色情，政治，暴力等内容')
-    ];
-    diagnostics.push(diagnostic);
+    const wordRegExp = new RegExp(word, 'gi');
+    let match;
+    
+    while ((match = wordRegExp.exec(text)) !== null) {
+      const startPos = document.positionAt(match.index);
+      const endPos = document.positionAt(match.index + word.length);
+      const range = new vscode.Range(startPos, endPos);
+      
+      const diagnostic = new vscode.Diagnostic(range, '敏感词', vscode.DiagnosticSeverity.Warning);
+      diagnostic.source = '敏感词检测';
+      diagnostic.relatedInformation = [
+        new vscode.DiagnosticRelatedInformation(new vscode.Location(document.uri, range), '这个词涉及了色情、政治、暴力等内容')
+      ];
+      
+      diagnostics.push(diagnostic);
+    }
   }
+  
   diagnosticCollection.clear();
-  diagnosticCollection.set(document.uri, diagnostics);
+  
+  if (diagnostics.length > 0) {
+    diagnosticCollection.set(document.uri, diagnostics);
+    vscode.window.showInformationMessage(`检测到${diagnostics.length}个敏感词。`);
+  } else {
+    vscode.window.showInformationMessage('该文件中没有敏感词。');
+  }
 }

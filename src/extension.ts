@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import { SidebarProvider } from "./SidebarProvider";
 import { checkForSensitiveWords } from './CheckForSensitiveWords';
 import Mint from 'mint-filter';
+const crypto = require('crypto');
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -36,7 +37,7 @@ async function injectionCSS(context: vscode.ExtensionContext) {
 	fs.readFile(cssPath, 'utf8', async (err, data) => {
 		if (err) {
 			console.error(err);
-			vscode.window.showInformationMessage('很遗憾，国产化失败！');
+			vscode.window.showErrorMessage('很遗憾，国产化失败！');
 			return;
 		}
 		const logoImg = await readImageAsBase64(path.join(extensionPath, 'resource', 'images', 'CEC-IDE.ico'));
@@ -98,7 +99,7 @@ async function injectionCSS(context: vscode.ExtensionContext) {
 			fs.writeFile(cssPath, updatedCssContent, 'utf8', err => {
 				if (err) {
 					console.error(err);
-					vscode.window.showInformationMessage('很遗憾，国产化失败！');
+					vscode.window.showErrorMessage('很遗憾，国产化失败！');
 					return;
 				}
 				vscode.window.showInformationMessage('已完成国产化，请重启vscode查看！');
@@ -111,7 +112,7 @@ async function injectionCSS(context: vscode.ExtensionContext) {
 			fs.writeFile(backupCssPath, data, 'utf8', err => {
 				if (err) {
 					console.error(err);
-					vscode.window.showInformationMessage('很遗憾，国产化失败！');
+					vscode.window.showErrorMessage('很遗憾，国产化失败！');
 					return;
 				}
 				writeCSS();
@@ -150,7 +151,7 @@ async function readImageAsBase64(imagePath: string): Promise<string> {
 		return base64Image;
 	} catch (err) {
 		console.error('Error reading image:', err);
-		vscode.window.showInformationMessage('很遗憾，国产化失败！');
+		vscode.window.showErrorMessage('很遗憾，国产化失败！');
 		throw err;
 	}
 }
@@ -163,13 +164,18 @@ function sidebarInit(context: vscode.ExtensionContext) {
 }
 
 function sensitiveWordDetectionInit(context: vscode.ExtensionContext) {
-	fs.readFile(path.join(context.extensionPath, 'resource', 'text', 'SensitiveWords.txt'), 'utf-8', (err, data) => {
+	fs.readFile(path.join(context.extensionPath, 'resource', 'text', 'SensitiveWordsEncryption.txt'), 'utf-8', (err, data) => {
 		if (err) {
 			console.error(err);
-			vscode.window.showInformationMessage('敏感词检测出错！');
+			vscode.window.showErrorMessage('敏感词检测出错！');
 			return;
 		}
-		let sensitiveWordsArray = data.split('\n').map(word => word.trim());
+
+		// 解密
+		const password = 'chuckle';
+		const decryptedText = decrypt(data, password);
+		
+		let sensitiveWordsArray = decryptedText.split('\n').map((word: string) => word.trim());
 		const mint = new Mint(sensitiveWordsArray);
 
 		let markCommand = vscode.commands.registerCommand('cec-ide.mark-sensitive-words', () => {
@@ -184,5 +190,26 @@ function sensitiveWordDetectionInit(context: vscode.ExtensionContext) {
 	});
 }
 
+// 加密函数
+function encrypt(text: string, password: string) {
+  const salt = crypto.randomBytes(16); // 生成随机的盐值
+  const key = crypto.pbkdf2Sync(password, salt, 100000, 32, 'sha256'); // 从密码生成密钥
+  const iv = crypto.randomBytes(16); // 生成随机的初始化向量
+  const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+  let encrypted = cipher.update(text, 'utf-8', 'hex');
+  encrypted += cipher.final('hex');
+  return `${salt.toString('hex')}:${iv.toString('hex')}:${encrypted}`;
+}
 
+// 解密函数
+function decrypt(encryptedText: string, password: string) {
+  const [saltHex, ivHex, encryptedData] = encryptedText.split(':');
+  const salt = Buffer.from(saltHex, 'hex');
+  const iv = Buffer.from(ivHex, 'hex');
+  const key = crypto.pbkdf2Sync(password, salt, 100000, 32, 'sha256'); // 从密码生成密钥
+  const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
+  let decrypted = decipher.update(encryptedData, 'hex', 'utf-8');
+  decrypted += decipher.final('utf-8');
+  return decrypted;
+}
 
