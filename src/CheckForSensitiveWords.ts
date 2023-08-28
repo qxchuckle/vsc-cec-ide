@@ -91,7 +91,23 @@ export function checkForSensitiveWords(editor: vscode.TextEditor, mint: Mint) {
   if (diagnostics.length > 0) {
     diagnosticCollection.set(document.uri, diagnostics);
     if (!fileStates[editor.document.fileName]) {
-      vscode.window.showInformationMessage(`开始检测，共有${diagnostics.length}个敏感词。`);
+      const stopAction: vscode.MessageItem = { title: '停止检测' };
+      vscode.window.showInformationMessage(
+          `开始检测，共有${diagnostics.length}个敏感词。`,
+          stopAction
+        )
+        .then((selectedAction) => {
+          if (selectedAction === stopAction) {
+            // 用户点击了停止检测按钮
+            diagnosticCollection.delete(document.uri);
+            if (documentListeners[document.fileName]) {
+              // 取消文档更改事件的监听
+              documentListeners[document.fileName].dispose();
+              delete documentListeners[document.fileName];
+              delete fileStates[document.fileName];
+            }
+          }
+        });
     }
   } else {
     if (documentListeners[document.fileName]) {
