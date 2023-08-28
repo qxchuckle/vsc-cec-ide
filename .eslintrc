@@ -1,0 +1,3 @@
+{
+	"extends": "@so1ve"
+}

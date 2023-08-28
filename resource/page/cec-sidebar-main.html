@@ -1,59 +1,71 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			href="#extensionPath/resource/css/cec-sidebar-main.css"
+			rel="stylesheet"
+		/>
+	</head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="#extensionPath/resource/css/cec-sidebar-main.css" rel="stylesheet">
-</head>
+	<body>
+		<div id="root">
+			<div id="header">
+				<div class="logo-box">
+					<img src="#extensionPath/resource/images/CEC-IDE.ico" />
+					<div class="logo-title">CEC-IDE</div>
+				</div>
+				<div class="introduce">自主研发 · 守正创新</div>
+			</div>
 
-<body>
-  <div id="root">
-    <div id="header">
-      <div class="logo-box">
-        <img src="#extensionPath/resource/images/CEC-IDE.ico">
-        <div class="logo-title">CEC-IDE</div>
-      </div>
-      <div class="introduce">自主研发 · 守正创新</div>
-    </div>
+			<div id="content">
+				<div class="user-box">
+					<div class="user-left">
+						<img
+							class="avatar"
+							src="#extensionPath/resource/images/avatar.png"
+							alt=""
+						/>
+					</div>
+					<div class="user-right">
+						<div class="top">
+							<div class="user-name">TheUser</div>
+							<div class="vip-box">
+								<div class="vip">SVIP10</div>
+							</div>
+						</div>
+						<div class="vip-time">会员截止日期：2077-07-07</div>
+					</div>
+				</div>
 
-    <div id="content">
-      <div class="user-box">
-        <div class="user-left">
-          <img class="avatar" src="#extensionPath/resource/images/avatar.png" alt="">
-        </div>
-        <div class="user-right">
-          <div class="top">
-            <div class="user-name">TheUser</div>
-            <div class="vip-box">
-              <div class="vip">SVIP10</div>
-            </div>
-          </div>
-          <div class="vip-time">会员截止日期：2077-07-07</div>
-        </div>
-      </div>
+				<button id="activation-button" class="activation-button">
+					激活会员
+				</button>
 
-      <button id="activation-button" class="activation-button">激活会员</button>
+				<div class="cec-introduce">
+					<div class="title">CEC-IDE简介</div>
+					<div class="abstract">
+						CEC-IDE是一款安全、专业且功能强大的集成开发工具。
+					</div>
+					<div class="specific">
+						CEC-IDE以“做好数字政府创新应用的孵化器和技术管理的总抓手”为使命，自主研发，提供多种主流语言的开发环境，是国内首款同时支持麒麟、统信、Windows、Mac
+						OS等多环境的IDE工具。CEC-IDE提供了代码编写、智能辅助、编译调试、版本控制等功能，同时自建插件市场，除了提供1600余种技术插件服务，还提供一系列的数字政府公共服务能力插件，提升研发效率。
+					</div>
+				</div>
+			</div>
 
-      <div class="cec-introduce">
-        <div class="title">CEC-IDE简介</div>
-        <div class="abstract">CEC-IDE是一款安全、专业且功能强大的集成开发工具。</div>
-        <div class="specific">
-          CEC-IDE以“做好数字政府创新应用的孵化器和技术管理的总抓手”为使命，自主研发，提供多种主流语言的开发环境，是国内首款同时支持麒麟、统信、Windows、Mac
-          OS等多环境的IDE工具。CEC-IDE提供了代码编写、智能辅助、编译调试、版本控制等功能，同时自建插件市场，除了提供1600余种技术插件服务，还提供一系列的数字政府公共服务能力插件，提升研发效率。
-        </div>
-      </div>
+			<div id="footer">
+				<a id="github" href="https://github.com/qxchuckle/vsc-cec-ide">
+					github: vsc-cec-ide
+				</a>
+			</div>
 
-    </div>
-
-    <div id="footer">
-      <a id="github" href="https://github.com/qxchuckle/vsc-cec-ide">github: vsc-cec-ide</a>
-    </div>
-
-    <div id="notification" class="notification">很抱歉！ 因系统检测到您的请求可能对网站造成威胁，已自动阻断请求，给你带来困扰请求谅解。</div>
-
-  </div>
-  <script src="#extensionPath/resource/js/cec-sidebar-main.js"></script>
-</body>
-
+			<div id="notification" class="notification">
+				很抱歉！
+				因系统检测到您的请求可能对网站造成威胁，已自动阻断请求，给你带来困扰请求谅解。
+			</div>
+		</div>
+		<script src="#extensionPath/resource/js/cec-sidebar-main.js"></script>
+	</body>
 </html>

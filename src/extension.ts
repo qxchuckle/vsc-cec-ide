@@ -1,31 +1,44 @@
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+
 import * as vscode from 'vscode';
-import * as path from 'path';
-import * as fs from 'fs';
-import { SidebarProvider } from "./SidebarProvider";
+
+import { SidebarProvider } from './SidebarProvider';
 
 export function activate(context: vscode.ExtensionContext) {
-
 	sidebarInit(context);
 
-	let mainCommand = vscode.commands.registerCommand('cec-ide.cec-ide', () => {
+	const mainCommand = vscode.commands.registerCommand('cec-ide.cec-ide', () => {
 		injectionCSS(context);
 	});
 
-	const restoreCommand = vscode.commands.registerCommand('cec-ide.cec-ide-restore', () => {
-		restoreCSS();
-	});
+	const restoreCommand = vscode.commands.registerCommand(
+		'cec-ide.cec-ide-restore',
+		() => {
+			restoreCSS();
+		},
+	);
 
 	context.subscriptions.push(mainCommand, restoreCommand);
 }
 
-export function deactivate() { }
+export function deactivate() {}
 
 async function injectionCSS(context: vscode.ExtensionContext) {
-	const cssName: string = vscode.version >= "1.38" ? 'workbench.desktop.main.css' : 'workbench.main.css';
+	const cssName: string =
+		vscode.version >= '1.38'
+			? 'workbench.desktop.main.css'
+			: 'workbench.main.css';
 	const vscodePath = vscode.env.appRoot;
 	const cssPath = path.join(vscodePath, 'out', 'vs', 'workbench', cssName);
 	const backupCssName = 'workbench.desktop.main.backups.css';
-	const backupCssPath = path.join(vscodePath, 'out', 'vs', 'workbench', backupCssName);
+	const backupCssPath = path.join(
+		vscodePath,
+		'out',
+		'vs',
+		'workbench',
+		backupCssName,
+	);
 
 	const extensionPath = context.extensionPath;
 
@@ -33,11 +46,18 @@ async function injectionCSS(context: vscode.ExtensionContext) {
 		if (err) {
 			console.error(err);
 			vscode.window.showInformationMessage('很遗憾，国产化失败！');
+
 			return;
 		}
-		const logoImg = await readImageAsBase64(path.join(extensionPath, 'resource', 'images', 'CEC-IDE.ico'));
-		const backImg = await readImageAsBase64(path.join(extensionPath, 'resource', 'images', 'back-img.png'));
-		const cecImg = await readImageAsBase64(path.join(extensionPath, 'resource', 'images', 'cec-img.webp'));
+		const logoImg = await readImageAsBase64(
+			path.join(extensionPath, 'resource', 'images', 'CEC-IDE.ico'),
+		);
+		const backImg = await readImageAsBase64(
+			path.join(extensionPath, 'resource', 'images', 'back-img.png'),
+		);
+		const cecImg = await readImageAsBase64(
+			path.join(extensionPath, 'resource', 'images', 'cec-img.webp'),
+		);
 		const newCssCode = `
 .monaco-workbench.monaco-workbench .part.titlebar .titlebar-container .window-appicon {
 	background-image: url(${logoImg})!important;
@@ -90,39 +110,50 @@ async function injectionCSS(context: vscode.ExtensionContext) {
 `;
 		const updatedCssContent = data + newCssCode;
 
-		const writeCSS = () => {
-			fs.writeFile(cssPath, updatedCssContent, 'utf8', err => {
+		function writeCSS() {
+			fs.writeFile(cssPath, updatedCssContent, 'utf8', (err) => {
 				if (err) {
 					console.error(err);
 					vscode.window.showInformationMessage('很遗憾，国产化失败！');
+
 					return;
 				}
-				vscode.window.showInformationMessage('已完成国产化，请重启vscode查看！');
+				vscode.window.showInformationMessage(
+					'已完成国产化，请重启vscode查看！',
+				);
 			});
-		};
+		}
 
 		if (fs.existsSync(backupCssPath)) {
 			writeCSS();
 		} else {
-			fs.writeFile(backupCssPath, data, 'utf8', err => {
+			fs.writeFile(backupCssPath, data, 'utf8', (err) => {
 				if (err) {
 					console.error(err);
 					vscode.window.showInformationMessage('很遗憾，国产化失败！');
+
 					return;
 				}
 				writeCSS();
 			});
 		}
-
 	});
 }
 
-
 function restoreCSS() {
 	const vscodePath = vscode.env.appRoot;
-	const cssName: string = vscode.version >= "1.38" ? 'workbench.desktop.main.css' : 'workbench.main.css';
+	const cssName: string =
+		vscode.version >= '1.38'
+			? 'workbench.desktop.main.css'
+			: 'workbench.main.css';
 	const cssPath = path.join(vscodePath, 'out', 'vs', 'workbench', cssName);
-	const backupCssPath = path.join(vscodePath, 'out', 'vs', 'workbench', 'workbench.desktop.main.backups.css');
+	const backupCssPath = path.join(
+		vscodePath,
+		'out',
+		'vs',
+		'workbench',
+		'workbench.desktop.main.backups.css',
+	);
 
 	// 检查是否存在备份文件
 	if (fs.existsSync(backupCssPath)) {
@@ -138,11 +169,11 @@ function restoreCSS() {
 	}
 }
 
-
 async function readImageAsBase64(imagePath: string): Promise<string> {
 	try {
 		const data = await fs.promises.readFile(imagePath);
-		const base64Image = "data:image/png;base64," + data.toString('base64');
+		const base64Image = `data:image/png;base64,${data.toString('base64')}`;
+
 		return base64Image;
 	} catch (err) {
 		console.error('Error reading image:', err);
@@ -152,11 +183,13 @@ async function readImageAsBase64(imagePath: string): Promise<string> {
 }
 
 function sidebarInit(context: vscode.ExtensionContext) {
-	const sidebarPanel = new SidebarProvider(context.extensionUri, 'cec-sidebar-main.html', 'cec-sidebar-main.css', 'cec-sidebar-main.js');
-  context.subscriptions.push(
-    vscode.window.registerWebviewViewProvider("cec-sidebar-main", sidebarPanel)
-  );
+	const sidebarPanel = new SidebarProvider(
+		context.extensionUri,
+		'cec-sidebar-main.html',
+		'cec-sidebar-main.css',
+		'cec-sidebar-main.js',
+	);
+	context.subscriptions.push(
+		vscode.window.registerWebviewViewProvider('cec-sidebar-main', sidebarPanel),
+	);
 }
-
-
-
