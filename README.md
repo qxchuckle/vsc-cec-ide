@@ -41,8 +41,9 @@ English document at the end of the text
 1. **敏感词检测**  
 在任意文件，右键，点击敏感词检测，将会持续检测该文件是否有敏感词，若文件关闭或没有敏感词，则停止检测。
 
-明感词来源：[tencent-sensitive-words](https://github.com/cjh0613/tencent-sensitive-words) 【有删改】
+![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/ea7e6d0a-7a4e-42c1-891d-e3f1b08de605)
 
+明感词来源：[tencent-sensitive-words](https://github.com/cjh0613/tencent-sensitive-words) 【有删改】
 
 ## CEC-IDE English Document
 
