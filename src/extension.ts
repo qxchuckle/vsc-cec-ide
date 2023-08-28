@@ -24,6 +24,14 @@ export function activate(context: vscode.ExtensionContext) {
     } else {
         vscode.window.showErrorMessage('No active text editor.');
     }
+    context.subscriptions.push(
+        vscode.workspace.onDidChangeTextDocument(onDidChangeTextDocument => {
+            const editor = vscode.window.activeTextEditor;
+            if (editor && onDidChangeTextDocument.document === editor.document) {
+                checkForSensitiveWords(editor, mint);
+            }
+        })
+      );
     });
     context.subscriptions.push(markCommand);
   });
