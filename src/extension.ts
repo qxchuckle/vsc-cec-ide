@@ -7,7 +7,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	sidebarInit(context);
 
-	let mainCommand = vscode.commands.registerCommand('cec-ide.cec-ide', () => {
+	const mainCommand = vscode.commands.registerCommand('cec-ide.cec-ide', () => {
 		injectionCSS(context);
 	});
 
