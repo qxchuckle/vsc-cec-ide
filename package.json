@@ -3,7 +3,7 @@
 	"displayName": "CEC-IDE",
 	"version": "0.1.0",
 	"publisher": "qcqx",
-	"description": "国产化你的VSCODE,来源于CEC-IDE,这下自主创新了!",
+	"description": "国产化你的VSCode,来源于CEC-IDE,这下自主创新了!",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/qxchuckle/vsc-cec-ide.git"
