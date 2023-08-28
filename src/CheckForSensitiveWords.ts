@@ -25,25 +25,13 @@ export function sensitiveWordDetectionInit(context: vscode.ExtensionContext) {
     const markCommand = vscode.commands.registerCommand('cec-ide.mark-sensitive-words', () => {
       const editor = vscode.window.activeTextEditor;
       if (editor && mint) {
-        activateDocumentChangeListener(editor.document); // 注册文档更改监听器
+        activateDocumentChangeListener(editor.document, mint); // 注册文档更改监听器
         checkForSensitiveWords(editor, mint);
         fileStates[editor.document.fileName] = true; // 记录文件状态为已检测
       } else {
         vscode.window.showErrorMessage('没有活动的文本编辑器。');
       }
     });
-
-    function activateDocumentChangeListener(document: vscode.TextDocument) {
-      if (!documentListeners[document.fileName]) {
-        const listener = vscode.workspace.onDidChangeTextDocument(event => {
-          const editor = vscode.window.activeTextEditor;
-          if (editor && editor.document === document && mint) {
-            checkForSensitiveWords(editor, mint);
-          }
-        });
-        documentListeners[document.fileName] = listener;
-      }
-    }
 
     // 取消文档更改事件的监听
     vscode.workspace.onDidCloseTextDocument(closedDocument => {
@@ -57,6 +45,18 @@ export function sensitiveWordDetectionInit(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(markCommand);
   });
+}
+
+function activateDocumentChangeListener(document: vscode.TextDocument, mint: Mint) {
+  if (!documentListeners[document.fileName]) {
+    const listener = vscode.workspace.onDidChangeTextDocument(event => {
+      const editor = vscode.window.activeTextEditor;
+      if (editor && editor.document === document && mint) {
+        checkForSensitiveWords(editor, mint);
+      }
+    });
+    documentListeners[document.fileName] = listener;
+  }
 }
 
 const diagnosticCollection = vscode.languages.createDiagnosticCollection('sensitiveWords');
