@@ -33,13 +33,13 @@ English document at the end of the text
 1. **敏感词检测**  
 在任意文件，右键，点击敏感词检测，将会持续检测该文件是否有敏感词，若文件关闭或没有敏感词，则停止检测。
 
-![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/ea7e6d0a-7a4e-42c1-891d-e3f1b08de605)
+![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/49e49ff2-8db6-4dac-ba3b-94899db3e226)
 
 敏感词来源：[tencent-sensitive-words](https://github.com/cjh0613/tencent-sensitive-words) 【有删改】
 
 ## 这下自主创新了
 
-![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/b7db603a-94fe-46b1-90c2-57e6def6d777)
+![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/c919b7f0-eaad-4f81-9959-85e28d7c76e2)
 
 接下来，本项目将进一步聚焦解决数字产业核心技术的“卡脖子”难题，牵住数字关键核心技术自主创新这个“牛鼻子”，强化自主创新项目整合，善用GITEE建设形成的人才聚集效应，切实提高数字关键核心技术创新能力，持续彰显科技创新示范效应。
 
