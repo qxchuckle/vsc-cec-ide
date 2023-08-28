@@ -1,10 +1,9 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
-import * as crypto from 'crypto';
 import { SidebarProvider } from "./SidebarProvider";
-import { checkForSensitiveWords } from './CheckForSensitiveWords';
-import Mint from 'mint-filter';
+import { sensitiveWordDetectionInit } from './CheckForSensitiveWords';
+
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -163,53 +162,5 @@ function sidebarInit(context: vscode.ExtensionContext) {
 	);
 }
 
-function sensitiveWordDetectionInit(context: vscode.ExtensionContext) {
-	fs.readFile(path.join(context.extensionPath, 'resource', 'text', 'SensitiveWordsEncryption.txt'), 'utf-8', (err, data) => {
-		if (err) {
-			console.error(err);
-			vscode.window.showErrorMessage('敏感词检测出错！');
-			return;
-		}
 
-		// 解密
-		const password = 'chuckle';
-		const decryptedText = decrypt(data, password);
-		
-		let sensitiveWordsArray = decryptedText.split('\n').map((word: string) => word.trim());
-		const mint = new Mint(sensitiveWordsArray);
-
-		let markCommand = vscode.commands.registerCommand('cec-ide.mark-sensitive-words', () => {
-			const editor = vscode.window.activeTextEditor;
-			if (editor) {
-				checkForSensitiveWords(editor, mint);
-			} else {
-				vscode.window.showErrorMessage('No active text editor.');
-			}
-		});
-		context.subscriptions.push(markCommand);
-	});
-}
-
-// 加密函数
-function encrypt(text: string, password: string) {
-  const salt = crypto.randomBytes(16); // 生成随机的盐值
-  const key = crypto.pbkdf2Sync(password, salt, 100000, 32, 'sha256'); // 从密码生成密钥
-  const iv = crypto.randomBytes(16); // 生成随机的初始化向量
-  const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
-  let encrypted = cipher.update(text, 'utf-8', 'hex');
-  encrypted += cipher.final('hex');
-  return `${salt.toString('hex')}:${iv.toString('hex')}:${encrypted}`;
-}
-
-// 解密函数
-function decrypt(encryptedText: string, password: string) {
-  const [saltHex, ivHex, encryptedData] = encryptedText.split(':');
-  const salt = Buffer.from(saltHex, 'hex');
-  const iv = Buffer.from(ivHex, 'hex');
-  const key = crypto.pbkdf2Sync(password, salt, 100000, 32, 'sha256'); // 从密码生成密钥
-  const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
-  let decrypted = decipher.update(encryptedData, 'hex', 'utf-8');
-  decrypted += decipher.final('utf-8');
-  return decrypted;
-}
 

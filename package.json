@@ -14,7 +14,7 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": ["onStartupFinished"],
+  "activationEvents": ["onStartupFinished", "onUriOpen"],
   "main": "./out/extension.js",
   "icon": "resource/images/CEC-IDE.png",
   "contributes": {
