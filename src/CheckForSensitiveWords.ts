@@ -93,7 +93,7 @@ export function checkForSensitiveWords(editor: vscode.TextEditor, mint: Mint) {
     if (!fileStates[editor.document.fileName]) {
       const stopAction: vscode.MessageItem = { title: '停止检测' };
       vscode.window.showInformationMessage(
-          `开始检测，共有${diagnostics.length}个敏感词。`,
+          `开始检测${path.basename(document.fileName)}，共有${diagnostics.length}个敏感词。`,
           stopAction
         )
         .then((selectedAction) => {
@@ -111,9 +111,9 @@ export function checkForSensitiveWords(editor: vscode.TextEditor, mint: Mint) {
     }
   } else {
     if (documentListeners[document.fileName]) {
-      vscode.window.showInformationMessage(`${document.fileName}中已经没有敏感词，停止检测。`);
+      vscode.window.showInformationMessage(`${path.basename(document.fileName)}中已经没有敏感词，停止检测。`);
     } else {
-      vscode.window.showInformationMessage(`${document.fileName}中没有敏感词。`);
+      vscode.window.showInformationMessage(`${path.basename(document.fileName)}中没有敏感词。`);
     }
     documentListeners[document.fileName].dispose();
     delete documentListeners[document.fileName];
