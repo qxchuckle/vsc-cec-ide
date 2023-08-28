@@ -1,76 +1,76 @@
 {
-	"name": "cec-ide",
-	"displayName": "CEC-IDE",
-	"version": "0.1.0",
-	"publisher": "qcqx",
-	"description": "国产化你的VSCode,来源于CEC-IDE,这下自主创新了!",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/qxchuckle/vsc-cec-ide.git"
-	},
-	"categories": [
-		"Other"
-	],
-	"main": "./out/extension.js",
-	"icon": "resource/images/CEC-IDE.png",
-	"engines": {
-		"vscode": "^1.70.0"
-	},
-	"activationEvents": [],
-	"contributes": {
-		"viewsContainers": {
-			"activitybar": [
-				{
-					"id": "cec-ide",
-					"title": "CEC-IDE",
-					"icon": "./resource/images/CEC-IDE.svg"
-				}
-			]
-		},
-		"views": {
-			"cec-ide": [
-				{
-					"id": "cec-sidebar-main",
-					"name": "主界面",
-					"icon": "./resource/images/CEC-IDE.svg",
-					"type": "webview",
-					"contextualTitle": "主界面"
-				}
-			]
-		},
-		"commands": [
-			{
-				"command": "cec-ide.cec-ide",
-				"title": "CEC-IDE"
-			},
-			{
-				"command": "cec-ide.cec-ide-restore",
-				"title": "CEC-IDE-RESTORE"
-			}
-		]
-	},
-	"scripts": {
-		"compile": "tsc -p ./",
-		"lint": "eslint . && prettier . --check",
-		"lint:fix": "eslint . --fix && prettier . --write",
-		"pretest": "npm run compile && npm run lint",
-		"test": "node ./out/test/runTest.js",
-		"vscode:prepublish": "npm run compile",
-		"watch": "tsc -watch -p ./"
-	},
-	"devDependencies": {
-		"@so1ve/eslint-config": "^0.120.0",
-		"@so1ve/prettier-config": "^0.120.0",
-		"@types/mocha": "^10.0.1",
-		"@types/node": "16.x",
-		"@types/vscode": "^1.70.0",
-		"@typescript-eslint/eslint-plugin": "^6.4.1",
-		"@typescript-eslint/parser": "^6.4.1",
-		"@vscode/test-electron": "^2.3.4",
-		"eslint": "^8.48.0",
-		"glob": "^10.3.3",
-		"mocha": "^10.2.0",
-		"prettier": "^3.0.2",
-		"typescript": "^5.1.6"
-	}
+  "name": "cec-ide",
+  "displayName": "CEC-IDE",
+  "version": "0.1.0",
+  "publisher": "qcqx",
+  "description": "国产化你的VSCode,来源于CEC-IDE,这下自主创新了!",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qxchuckle/vsc-cec-ide.git"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./out/extension.js",
+  "icon": "resource/images/CEC-IDE.png",
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "activationEvents": [],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "cec-ide",
+          "title": "CEC-IDE",
+          "icon": "./resource/images/CEC-IDE.svg"
+        }
+      ]
+    },
+    "views": {
+      "cec-ide": [
+        {
+          "id": "cec-sidebar-main",
+          "name": "主界面",
+          "icon": "./resource/images/CEC-IDE.svg",
+          "type": "webview",
+          "contextualTitle": "主界面"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "cec-ide.cec-ide",
+        "title": "CEC-IDE"
+      },
+      {
+        "command": "cec-ide.cec-ide-restore",
+        "title": "CEC-IDE-RESTORE"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "lint": "eslint . && prettier . --check",
+    "lint:fix": "eslint . --fix && prettier . --write",
+    "pretest": "npm run compile && npm run lint",
+    "test": "node ./out/test/runTest.js",
+    "vscode:prepublish": "npm run compile",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@so1ve/eslint-config": "^0.120.0",
+    "@so1ve/prettier-config": "^0.120.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.70.0",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "@vscode/test-electron": "^2.3.4",
+    "eslint": "^8.48.0",
+    "glob": "^10.3.3",
+    "mocha": "^10.2.0",
+    "prettier": "^3.0.2",
+    "typescript": "^5.1.6"
+  }
 }
