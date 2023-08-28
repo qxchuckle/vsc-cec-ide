@@ -1,12 +1,41 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
+import { Mint } from 'mint-filter';
 import * as vscode from 'vscode';
 
+import { checkForSensitiveWords } from './CheckForSensitiveWords';
 import { SidebarProvider } from './SidebarProvider';
 
 export function activate(context: vscode.ExtensionContext) {
   sidebarInit(context);
+
+  fs.readFile(
+    path.join(context.extensionPath, 'resource', 'text', 'SensitiveWords.txt'),
+    'utf-8',
+    (err, data) => {
+      if (err) {
+        console.error(err);
+
+        return;
+      }
+      const sensitiveWordsArray = data.split('\n').map((word) => word.trim());
+      const mint = new Mint(sensitiveWordsArray);
+
+      const markCommand = vscode.commands.registerCommand(
+        'cec-ide.mark-sensitive-words',
+        () => {
+          const editor = vscode.window.activeTextEditor;
+          if (editor) {
+            checkForSensitiveWords(editor, mint);
+          } else {
+            vscode.window.showErrorMessage('No active text editor.');
+          }
+        },
+      );
+      context.subscriptions.push(markCommand);
+    },
+  );
 
   const mainCommand = vscode.commands.registerCommand('cec-ide.cec-ide', () => {
     injectionCSS(context);
