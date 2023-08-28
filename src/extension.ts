@@ -10,32 +10,7 @@ import { SidebarProvider } from './SidebarProvider';
 export function activate(context: vscode.ExtensionContext) {
   sidebarInit(context);
 
-  fs.readFile(
-    path.join(context.extensionPath, 'resource', 'text', 'SensitiveWords.txt'),
-    'utf-8',
-    (err, data) => {
-      if (err) {
-        console.error(err);
-
-        return;
-      }
-      const sensitiveWordsArray = data.split('\n').map((word) => word.trim());
-      const mint = new Mint(sensitiveWordsArray);
-
-      const markCommand = vscode.commands.registerCommand(
-        'cec-ide.mark-sensitive-words',
-        () => {
-          const editor = vscode.window.activeTextEditor;
-          if (editor) {
-            checkForSensitiveWords(editor, mint);
-          } else {
-            vscode.window.showErrorMessage('No active text editor.');
-          }
-        },
-      );
-      context.subscriptions.push(markCommand);
-    },
-  );
+  sensitiveWordDetectionInit(context);
 
   const mainCommand = vscode.commands.registerCommand('cec-ide.cec-ide', () => {
     injectionCSS(context);
@@ -220,5 +195,35 @@ function sidebarInit(context: vscode.ExtensionContext) {
   );
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider('cec-sidebar-main', sidebarPanel),
+  );
+}
+
+function sensitiveWordDetectionInit(context: vscode.ExtensionContext) {
+  fs.readFile(
+    path.join(context.extensionPath, 'resource', 'text', 'SensitiveWords.txt'),
+    'utf-8',
+    (err, data) => {
+      if (err) {
+        console.error(err);
+        vscode.window.showInformationMessage('敏感词检测出错！');
+
+        return;
+      }
+      const sensitiveWordsArray = data.split('\n').map((word) => word.trim());
+      const mint = new Mint(sensitiveWordsArray);
+
+      const markCommand = vscode.commands.registerCommand(
+        'cec-ide.mark-sensitive-words',
+        () => {
+          const editor = vscode.window.activeTextEditor;
+          if (editor) {
+            checkForSensitiveWords(editor, mint);
+          } else {
+            vscode.window.showErrorMessage('No active text editor.');
+          }
+        },
+      );
+      context.subscriptions.push(markCommand);
+    },
   );
 }
