@@ -28,9 +28,9 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(markCommand);
   });
 
-  let mainCommand = vscode.commands.registerCommand('cec-ide.cec-ide', () => {
-    injectionCSS(context);
-  });
+  const mainCommand = vscode.commands.registerCommand('cec-ide.cec-ide', () => {
+		injectionCSS(context);
+	});
 
   const restoreCommand = vscode.commands.registerCommand('cec-ide.cec-ide-restore', () => {
     restoreCSS();
@@ -53,6 +53,7 @@ async function injectionCSS(context: vscode.ExtensionContext) {
 	fs.readFile(cssPath, 'utf8', async (err, data) => {
 		if (err) {
 			console.error(err);
+			vscode.window.showInformationMessage('很遗憾，国产化失败！');
 			return;
 		}
 		const logoImg = await readImageAsBase64(path.join(extensionPath, 'resource', 'images', 'CEC-IDE.ico'));
@@ -114,6 +115,7 @@ async function injectionCSS(context: vscode.ExtensionContext) {
 			fs.writeFile(cssPath, updatedCssContent, 'utf8', err => {
 				if (err) {
 					console.error(err);
+					vscode.window.showInformationMessage('很遗憾，国产化失败！');
 					return;
 				}
 				vscode.window.showInformationMessage('已完成国产化，请重启vscode查看！');
@@ -165,6 +167,7 @@ async function readImageAsBase64(imagePath: string): Promise<string> {
 		return base64Image;
 	} catch (err) {
 		console.error('Error reading image:', err);
+		vscode.window.showInformationMessage('很遗憾，国产化失败！');
 		throw err;
 	}
 }
