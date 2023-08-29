@@ -88,7 +88,7 @@ Source of sensitive words: [tense sensitive words](https://github.com/cjh0613/te
 
 ***
 
-> 整活项目，顺带学习下VSCode插件开发。
+> 整活项目，顺带学习下VSCode插件开发。  
 > 本项目仅供个人学习使用。图片等资源来源于互联网，如有侵权请联系删除。
 
 ***
