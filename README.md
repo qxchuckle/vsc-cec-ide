@@ -22,8 +22,14 @@ English document at the end of the text
 3. 提示code损坏请装 [Fix VSCode Checksums](https://marketplace.visualstudio.com/items?itemName=lehni.vscode-fix-checksums) 插件，然后执行 `Fix Checksums: Apply` 命令。
 
 ## 实用功能
-1. **敏感词检测**  
-在任意文件，右键，点击敏感词检测，将会持续检测该文件是否有敏感词，若文件关闭或没有敏感词，则停止检测。
+
+### 1、敏感词检测 
+
+在任意文件，右键，点击敏感词检测，将会持续检测该文件是否有敏感词，若文件关闭或没有敏感词，则停止检测。右键点击停止检测敏感词可以手动停止检测。
+
+**命令:**
+1. `CEC-UploadSensitiveWordsFile` 上传自定义敏感词txt文件，格式：一行一个敏感词。
+2. `CEC-ResetSensitiveWordsFile` 重置为插件自带的敏感词。
 
 ![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/49e49ff2-8db6-4dac-ba3b-94899db3e226)
 
@@ -61,7 +67,16 @@ The plugin has been launched in the VSCode plugin market[CEC-IDE](https://market
 Next, this project will further focus on solving the "bottleneck" problem of core technologies in the digital industry, holding onto the "bull nose" of independent innovation in digital key core technologies, strengthening the integration of independent innovation projects, making good use of the talent aggregation effect formed by the construction of GITEE, effectively improving the innovation ability of digital key core technologies, and continuously demonstrating the demonstration effect of technological innovation.
 
 ## Practical functions
-1. **Sensitive word detection for Chinese characteristics**  
+
+### 1、Sensitive word detection for Chinese characteristics
+
 In any file, right-click and click on Sensitive Word Detection to continuously detect whether the file has sensitive words. If the file is closed or does not have sensitive words, detection will stop.
 
 Source of Minggan words: [tense sensitive words](https://github.com/cjh0613/tencent-sensitive-words) with deletion and modification
+
+**Command:**
+1. `CEC UploadSensitiveWordsFile` Upload a custom sensitive word txt file in the format of one sensitive word per line.
+2. `CEC ResetSensiveWordsFile` Reset to the sensitive words that come with the plugin.
+
+> 本项目仅供个人学习使用。图片等资源来源于互联网，如有侵权请联系删除
+
