@@ -3,6 +3,7 @@ import Mint from 'mint-filter';
 import * as path from 'path';
 import * as fs from 'fs';
 import { encrypt, decrypt } from './utils/EncryptionAndDecryption';
+import { createCodeActionProvider } from './CodeActionProvider';
 
 const documentListeners: { [key: string]: vscode.Disposable } = {}; // 记录文件监听器
 const fileStates: { [key: string]: boolean } = {}; // 记录文件状态
@@ -62,6 +63,9 @@ export function sensitiveWordDetectionInit(context: vscode.ExtensionContext) {
 
     customSensitiveWords(context); // 自定义敏感词
 
+    // 注册 CodeActionProvider，指定诊断来源
+    const codeActionProvider = createCodeActionProvider('敏感词检测');
+
     context.subscriptions.push(markCommand, stopCommand);
   });
 }
@@ -100,6 +104,7 @@ export function checkForSensitiveWords(editor: vscode.TextEditor, mint: Mint) {
       diagnostic.relatedInformation = [
         new vscode.DiagnosticRelatedInformation(new vscode.Location(document.uri, range), `${word}`)
       ];
+
 
       diagnostics.push(diagnostic);
     }
@@ -185,5 +190,6 @@ function customSensitiveWords(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(uploadSensitiveWordsFile, resetSensitiveWordsFile);
 }
+
 
 
