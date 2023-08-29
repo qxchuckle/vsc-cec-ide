@@ -86,5 +86,6 @@ Source of sensitive words: [tense sensitive words](https://github.com/cjh0613/te
 1. `CEC UploadSensitiveWordsFile` Upload a custom sensitive word txt file in the format of one sensitive word per line.
 2. `CEC ResetSensiveWordsFile` Reset to the sensitive words that come with the plugin.
 
-> 本项目仅供个人学习使用。图片等资源来源于互联网，如有侵权请联系删除
 
+> 整活项目，顺带学习下VSCode插件开发。
+> 本项目仅供个人学习使用。图片等资源来源于互联网，如有侵权请联系删除。
