@@ -59,10 +59,12 @@
     "menus": {
       "editor/context": [
         {
+          "when": "editorTextFocus",
           "command": "cec-ide.mark-sensitive-words",
           "group": "navigation@1"
         },
         {
+          "when": "editorTextFocus",
           "command": "cec-ide.stop-mark-sensitive-words",
           "group": "navigation@1"
         }
