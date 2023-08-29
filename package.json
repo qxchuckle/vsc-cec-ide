@@ -93,6 +93,12 @@
         "key": "alt+shift+n",
         "mac": "alt+shift+n",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "cec-ide.stop-mark-sensitive-words",
+        "key": "alt+n",
+        "mac": "alt+n",
+        "when": "editorTextFocus"
       }
     ],
     "icons": {

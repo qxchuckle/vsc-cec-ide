@@ -160,3 +160,5 @@ function sidebarInit(context: vscode.ExtensionContext) {
 		vscode.window.registerWebviewViewProvider("cec-sidebar-main", sidebarPanel)
 	);
 }
+
+
