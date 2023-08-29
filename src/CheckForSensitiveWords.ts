@@ -119,12 +119,11 @@ export function checkForSensitiveWords(editor: vscode.TextEditor, mint: Mint) {
       vscode.window.showInformationMessage(
         `开始检测${path.basename(document.fileName)}，共有${diagnostics.length}个敏感词。`,
         stopAction
-      )
-        .then((selectedAction) => {
-          if (selectedAction === stopAction) {
-            stopSensitiveWordDetection(editor.document);
-          }
-        });
+      ).then((selectedAction) => {
+        if (selectedAction === stopAction) {
+          stopSensitiveWordDetection(editor.document);
+        }
+      });
     }
   } else {
     vscode.window.showInformationMessage(`${path.basename(document.fileName)}中已没有敏感词，停止检测。`);
