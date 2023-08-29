@@ -24,6 +24,9 @@ export function sensitiveWordDetectionInit(context: vscode.ExtensionContext) {
 
     const markCommand = vscode.commands.registerCommand('cec-ide.mark-sensitive-words', () => {
       const editor = vscode.window.activeTextEditor;
+      if( editor && fileStates[editor.document.fileName]){
+        return; // 已经检测种的文件不重复进行检测
+      }
       if (editor && mint) {
         activateDocumentChangeListener(editor.document, mint); // 注册文档更改监听器
         checkForSensitiveWords(editor, mint);
@@ -43,7 +46,14 @@ export function sensitiveWordDetectionInit(context: vscode.ExtensionContext) {
       }
     });
 
-    context.subscriptions.push(markCommand);
+    const stopCommand = vscode.commands.registerCommand('cec-ide.stop-mark-sensitive-words', () => {
+      const editor = vscode.window.activeTextEditor;
+      if (editor) {
+        stopSensitiveWordDetection(editor.document);
+      }
+    });
+
+    context.subscriptions.push(markCommand, stopCommand);
   });
 }
 
@@ -98,14 +108,7 @@ export function checkForSensitiveWords(editor: vscode.TextEditor, mint: Mint) {
         )
         .then((selectedAction) => {
           if (selectedAction === stopAction) {
-            // 用户点击了停止检测按钮
-            diagnosticCollection.delete(document.uri);
-            if (documentListeners[document.fileName]) {
-              // 取消文档更改事件的监听
-              delete fileStates[document.fileName];
-              documentListeners[document.fileName].dispose();
-              delete documentListeners[document.fileName];
-            }
+            stopSensitiveWordDetection(editor.document);
           }
         });
     }
@@ -117,3 +120,14 @@ export function checkForSensitiveWords(editor: vscode.TextEditor, mint: Mint) {
   }
 }
 
+function stopSensitiveWordDetection(document: vscode.TextDocument) {
+  if (fileStates[document.fileName]) {
+    delete fileStates[document.fileName];
+    if (documentListeners[document.fileName]) {
+      documentListeners[document.fileName].dispose();
+      delete documentListeners[document.fileName];
+    }
+    diagnosticCollection.delete(document.uri);
+    vscode.window.showInformationMessage(`已停止检测敏感词。`);
+  }
+}
