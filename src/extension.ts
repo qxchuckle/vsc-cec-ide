@@ -4,7 +4,6 @@ import * as fs from 'fs';
 import { SidebarProvider } from "./SidebarProvider";
 import { sensitiveWordDetectionInit } from './CheckForSensitiveWords';
 
-
 export function activate(context: vscode.ExtensionContext) {
 
 	sidebarInit(context);

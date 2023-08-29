@@ -3,11 +3,12 @@ import Mint from 'mint-filter';
 import * as path from 'path';
 import * as fs from 'fs';
 import { encrypt, decrypt } from './utils/EncryptionAndDecryption';
+let statusBar: vscode.StatusBarItem; // 状态栏
 
 const documentListeners: { [key: string]: vscode.Disposable } = {}; // 记录文件监听器
 const fileStates: { [key: string]: boolean } = {}; // 记录文件状态
 
-export function sensitiveWordDetectionInit(context: vscode.ExtensionContext) {
+export function sensitiveWordDetectionInit(context: vscode.ExtensionContext,) {
   fs.readFile(path.join(context.extensionPath, 'resource', 'text', 'SensitiveWordsEncryption.txt'), 'utf-8', (err, data) => {
     if (err) {
       console.error(err);
@@ -32,6 +33,19 @@ export function sensitiveWordDetectionInit(context: vscode.ExtensionContext) {
         vscode.window.showErrorMessage('没有活动的文本编辑器。');
       }
     });
+    const stopmarkCommand = vscode.commands.registerCommand('cec-ide.stop-mark-sensitive-words', () => {
+      const editor = vscode.window.activeTextEditor;
+      if (editor) {
+      stopcheckForSensitiveWords(editor.document)
+      }
+    })
+
+    // 创建状态栏项
+    statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+    statusBar.text = '$(cec-ide-line) CEC-IDE'; // 默认状态
+    statusBar.command = 'cec-ide.mark-sensitive-words'; // 点击状态栏时触发命令
+    statusBar.tooltip = '点击开始CEC敏感词检测';
+    statusBar.show();
 
     // 取消文档更改事件的监听
     vscode.workspace.onDidCloseTextDocument(closedDocument => {
@@ -43,7 +57,7 @@ export function sensitiveWordDetectionInit(context: vscode.ExtensionContext) {
       }
     });
 
-    context.subscriptions.push(markCommand);
+    context.subscriptions.push(markCommand, stopmarkCommand, statusBar);
   });
 }
 
@@ -52,6 +66,9 @@ function activateDocumentChangeListener(document: vscode.TextDocument, mint: Min
     const listener = vscode.workspace.onDidChangeTextDocument(event => {
       const editor = vscode.window.activeTextEditor;
       if (editor && editor.document === document && mint) {
+        statusBar.text = '$(cec-ide-line) 监听中';
+        statusBar.tooltip = '点击停止监听'
+        statusBar.command = 'cec-ide.stop-mark-sensitive-words'
         checkForSensitiveWords(editor, mint);
       }
     });
@@ -83,6 +100,9 @@ export function checkForSensitiveWords(editor: vscode.TextEditor, mint: Mint) {
       ];
 
       diagnostics.push(diagnostic);
+      statusBar.text = `$(cec-ide-line) 监听到${diagnostics.length}敏感词`;
+      statusBar.tooltip = '点击停止监听'
+      statusBar.command = 'cec-ide.stop-mark-sensitive-words'
     }
   }
 
@@ -99,13 +119,7 @@ export function checkForSensitiveWords(editor: vscode.TextEditor, mint: Mint) {
         .then((selectedAction) => {
           if (selectedAction === stopAction) {
             // 用户点击了停止检测按钮
-            diagnosticCollection.delete(document.uri);
-            if (documentListeners[document.fileName]) {
-              // 取消文档更改事件的监听
-              documentListeners[document.fileName].dispose();
-              delete documentListeners[document.fileName];
-              delete fileStates[document.fileName];
-            }
+            stopcheckForSensitiveWords(document);
           }
         });
     }
@@ -115,6 +129,23 @@ export function checkForSensitiveWords(editor: vscode.TextEditor, mint: Mint) {
     } else {
       vscode.window.showInformationMessage(`${path.basename(document.fileName)}中没有敏感词。`);
     }
+    documentListeners[document.fileName].dispose();
+    delete documentListeners[document.fileName];
+    delete fileStates[document.fileName];
+  }
+}
+
+function stopcheckForSensitiveWords(document: vscode.TextDocument){
+  statusBar.text = '$(cec-ide-line) 停止监听...'; // 更新状态栏消息
+  statusBar.tooltip = 'CEC自主研发'
+  statusBar.command = undefined;
+  setTimeout(() => {
+    statusBar.text = '$(cec-ide-line) CEC-IDE'; // 回到默认状态
+    statusBar.command = 'cec-ide.mark-sensitive-words';
+  },2000)
+  diagnosticCollection.delete(document.uri);
+  if (documentListeners[document.fileName]) {
+    // 取消文档更改事件的监听
     documentListeners[document.fileName].dispose();
     delete documentListeners[document.fileName];
     delete fileStates[document.fileName];
