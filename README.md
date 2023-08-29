@@ -6,7 +6,7 @@
 
 English document at the end of the text
 
-插件已上架VSCode插件市场[CEC-IDE](https://marketplace.visualstudio.com/items?itemName=qcqx.cec-ide)
+已上架VSCode插件市场[CEC-IDE](https://marketplace.visualstudio.com/items?itemName=qcqx.cec-ide)
 
 下载vsix可前往[releases](https://github.com/qxchuckle/vsc-cec-ide/releases)
 
@@ -78,7 +78,7 @@ Next, this project will further focus on solving the "bottleneck" problem of cor
 
 In any file, right-click and click on Sensitive Word Detection to continuously detect whether the file has sensitive words. If the file is closed or does not have sensitive words, detection will stop.
 
-Source of Minggan words: [tense sensitive words](https://github.com/cjh0613/tencent-sensitive-words) with deletion and modification
+Source of sensitive words: [tense sensitive words](https://github.com/cjh0613/tencent-sensitive-words) with deletion and modification
 
 **Command:**
 1. `CEC UploadSensitiveWordsFile` Upload a custom sensitive word txt file in the format of one sensitive word per line.
