@@ -33,15 +33,15 @@ English document at the end of the text
 
 ![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/c919b7f0-eaad-4f81-9959-85e28d7c76e2)
 
-### VSC图标修改
+接下来，本项目将进一步聚焦解决数字产业核心技术的“卡脖子”难题，牵住数字关键核心技术自主创新这个“牛鼻子”，强化自主创新项目整合，善用GITEE建设形成的人才聚集效应，切实提高数字关键核心技术创新能力，持续彰显科技创新示范效应。
+
+## VSC图标修改
 
 ![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/984daf13-e4e9-4658-b44a-caa97e57ecba)
 
 软件的图标修改插件做不到
 
 请下载仓库内 **CEC-IDE.ico** 自行右键-属性-更改图标
-
-接下来，本项目将进一步聚焦解决数字产业核心技术的“卡脖子”难题，牵住数字关键核心技术自主创新这个“牛鼻子”，强化自主创新项目整合，善用GITEE建设形成的人才聚集效应，切实提高数字关键核心技术创新能力，持续彰显科技创新示范效应。
 
 ## CEC-IDE English Document
 
