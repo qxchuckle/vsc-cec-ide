@@ -2,49 +2,24 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 import { SidebarProvider } from "./SidebarProvider";
-import { checkForSensitiveWords } from './CheckForSensitiveWords';
-import Mint from 'mint-filter'
+import { sensitiveWordDetectionInit } from './CheckForSensitiveWords';
+
 
 export function activate(context: vscode.ExtensionContext) {
 
-  sidebarInit(context);
+	sidebarInit(context);
 
-  fs.readFile(path.join(context.extensionPath, 'resource', 'text', 'SensitiveWords.txt'), 'utf-8', (err, data) => {
-    if (err) {
-        console.error(err);
-        return;
-    }
-    let sensitiveWordsArray = data.split('\n').map(word => word.trim());
-    const mint = new Mint(sensitiveWordsArray)
+	sensitiveWordDetectionInit(context);
 
-    let markCommand = vscode.commands.registerCommand('cec-ide.mark-sensitive-words', () => {
-      const editor = vscode.window.activeTextEditor;
-      if (editor) {
-        checkForSensitiveWords(editor, mint);
-    } else {
-        vscode.window.showErrorMessage('No active text editor.');
-    }
-    context.subscriptions.push(
-        vscode.workspace.onDidChangeTextDocument(onDidChangeTextDocument => {
-            const editor = vscode.window.activeTextEditor;
-            if (editor && onDidChangeTextDocument.document === editor.document) {
-                checkForSensitiveWords(editor, mint);
-            }
-        })
-      );
-    });
-    context.subscriptions.push(markCommand);
-  });
-
-  const mainCommand = vscode.commands.registerCommand('cec-ide.cec-ide', () => {
+	const mainCommand = vscode.commands.registerCommand('cec-ide.cec-ide', () => {
 		injectionCSS(context);
 	});
 
-  const restoreCommand = vscode.commands.registerCommand('cec-ide.cec-ide-restore', () => {
-    restoreCSS();
-  });
+	const restoreCommand = vscode.commands.registerCommand('cec-ide.cec-ide-restore', () => {
+		restoreCSS();
+	});
 
-  context.subscriptions.push(mainCommand, restoreCommand);
+	context.subscriptions.push(mainCommand, restoreCommand);
 }
 
 export function deactivate() { }
@@ -61,7 +36,7 @@ async function injectionCSS(context: vscode.ExtensionContext) {
 	fs.readFile(cssPath, 'utf8', async (err, data) => {
 		if (err) {
 			console.error(err);
-			vscode.window.showInformationMessage('很遗憾，国产化失败！');
+			vscode.window.showErrorMessage('很遗憾，国产化失败！');
 			return;
 		}
 		const logoImg = await readImageAsBase64(path.join(extensionPath, 'resource', 'images', 'CEC-IDE.ico'));
@@ -123,7 +98,7 @@ async function injectionCSS(context: vscode.ExtensionContext) {
 			fs.writeFile(cssPath, updatedCssContent, 'utf8', err => {
 				if (err) {
 					console.error(err);
-					vscode.window.showInformationMessage('很遗憾，国产化失败！');
+					vscode.window.showErrorMessage('很遗憾，国产化失败！');
 					return;
 				}
 				vscode.window.showInformationMessage('已完成国产化，请重启vscode查看！');
@@ -136,7 +111,7 @@ async function injectionCSS(context: vscode.ExtensionContext) {
 			fs.writeFile(backupCssPath, data, 'utf8', err => {
 				if (err) {
 					console.error(err);
-					vscode.window.showInformationMessage('很遗憾，国产化失败！');
+					vscode.window.showErrorMessage('很遗憾，国产化失败！');
 					return;
 				}
 				writeCSS();
@@ -175,15 +150,16 @@ async function readImageAsBase64(imagePath: string): Promise<string> {
 		return base64Image;
 	} catch (err) {
 		console.error('Error reading image:', err);
-		vscode.window.showInformationMessage('很遗憾，国产化失败！');
+		vscode.window.showErrorMessage('很遗憾，国产化失败！');
 		throw err;
 	}
 }
 
 function sidebarInit(context: vscode.ExtensionContext) {
 	const sidebarPanel = new SidebarProvider(context.extensionUri, 'cec-sidebar-main.html', 'cec-sidebar-main.css', 'cec-sidebar-main.js');
-  context.subscriptions.push(
-    vscode.window.registerWebviewViewProvider("cec-sidebar-main", sidebarPanel)
-  );
+	context.subscriptions.push(
+		vscode.window.registerWebviewViewProvider("cec-sidebar-main", sidebarPanel)
+	);
 }
+
 
