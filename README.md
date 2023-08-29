@@ -35,7 +35,7 @@ English document at the end of the text
 
 点击右下角状态栏按钮，也能开始检测或停止检测，且在检测中会显示当前活动编辑器含有的敏感词数。
 
-
+![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/ecfaa61c-d369-446b-9ec6-7e2b8f559ee7)
 
 敏感词来源：[tencent-sensitive-words](https://github.com/cjh0613/tencent-sensitive-words) 【有删改】
 
