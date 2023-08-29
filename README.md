@@ -12,7 +12,7 @@ English document at the end of the text
 
 **命令：** Ctrl+Shift+P 打开命令中心
 1. `CEC-IDE` 进行国产化
-2. `CEC-IDE-RESTORE` 去除国产化
+2. `CEC-IDE-RESTORE` 去除国产化 (alt+shift+n)
 
 ![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/712346f4-61e5-4118-a650-cfab5bcfebcc)
 
@@ -26,6 +26,8 @@ English document at the end of the text
 ### 1、敏感词检测 
 
 在任意文件，右键，点击敏感词检测，将会持续检测该文件是否有敏感词，若文件关闭或没有敏感词，则停止检测。右键点击停止检测敏感词可以手动停止检测。
+
+**快捷键:** `alt+shift+m` 检测，`alt+shift+n` 停止检测。
 
 **命令:**
 1. `CEC-UploadSensitiveWordsFile` 上传自定义敏感词txt文件，格式：一行一个敏感词。
