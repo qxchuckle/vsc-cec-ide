@@ -27,13 +27,13 @@ English document at the end of the text
 
 在任意文件，右键，点击敏感词检测，将会持续检测该文件是否有敏感词，若文件关闭或没有敏感词，则停止检测。右键点击停止检测敏感词可以手动停止检测。
 
-![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/49e49ff2-8db6-4dac-ba3b-94899db3e226)
-
-敏感词来源：[tencent-sensitive-words](https://github.com/cjh0613/tencent-sensitive-words) 【有删改】
-
 **命令:**
 1. `CEC-UploadSensitiveWordsFile` 上传自定义敏感词txt文件，格式：一行一个敏感词。
 2. `CEC-ResetSensitiveWordsFile` 重置为插件自带的敏感词。
+
+![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/49e49ff2-8db6-4dac-ba3b-94899db3e226)
+
+敏感词来源：[tencent-sensitive-words](https://github.com/cjh0613/tencent-sensitive-words) 【有删改】
 
 ## 这下自主创新了
 
