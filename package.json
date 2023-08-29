@@ -49,11 +49,11 @@
       },
       {
         "command": "cec-ide.mark-sensitive-words",
-        "title": "检查敏感词"
+        "title": "检测敏感词"
       },
       {
         "command": "cec-ide.stop-mark-sensitive-words",
-        "title": "停止监听敏感词"
+        "title": "停止检测敏感词"
       }
     ],
     "menus": {
@@ -64,15 +64,21 @@
         },
         {
           "command": "cec-ide.stop-mark-sensitive-words",
-          "group": "navigation@2"
+          "group": "navigation@1"
         }
       ]
     },
     "keybindings": [
       {
         "command": "cec-ide.mark-sensitive-words",
-        "key": "alt+m",
-        "mac": "alt+m",
+        "key": "alt+shift+m",
+        "mac": "alt+shift+m",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "cec-ide.stop-mark-sensitive-words",
+        "key": "alt+shift+n",
+        "mac": "alt+shift+n",
         "when": "editorTextFocus"
       },
       {
