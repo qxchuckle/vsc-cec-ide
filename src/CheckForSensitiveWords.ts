@@ -36,9 +36,9 @@ export function sensitiveWordDetectionInit(context: vscode.ExtensionContext) {
     // 取消文档更改事件的监听
     vscode.workspace.onDidCloseTextDocument(closedDocument => {
       if (documentListeners[closedDocument.fileName]) {
+        delete fileStates[closedDocument.fileName];
         documentListeners[closedDocument.fileName].dispose();
         delete documentListeners[closedDocument.fileName];
-        delete fileStates[closedDocument.fileName];
         diagnosticCollection.delete(closedDocument.uri);
       }
     });
@@ -102,22 +102,18 @@ export function checkForSensitiveWords(editor: vscode.TextEditor, mint: Mint) {
             diagnosticCollection.delete(document.uri);
             if (documentListeners[document.fileName]) {
               // 取消文档更改事件的监听
+              delete fileStates[document.fileName];
               documentListeners[document.fileName].dispose();
               delete documentListeners[document.fileName];
-              delete fileStates[document.fileName];
             }
           }
         });
     }
   } else {
-    if (documentListeners[document.fileName]) {
-      vscode.window.showInformationMessage(`${path.basename(document.fileName)}中已经没有敏感词，停止检测。`);
-    } else {
-      vscode.window.showInformationMessage(`${path.basename(document.fileName)}中没有敏感词。`);
-    }
+    vscode.window.showInformationMessage(`${path.basename(document.fileName)}中已没有敏感词，停止检测。`);
+    delete fileStates[document.fileName];
     documentListeners[document.fileName].dispose();
     delete documentListeners[document.fileName];
-    delete fileStates[document.fileName];
   }
 }
 
