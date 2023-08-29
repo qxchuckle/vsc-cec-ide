@@ -4,3 +4,4 @@ node_modules
 .vscode-test/
 *.vsix
 sensitive_words_lines.txt
+*.zip

@@ -95,7 +95,17 @@
         "when": "editorTextFocus"
       }
     ],
+    "icons": {
+      "cec-ide-line": {
+        "description": "cec-ide-line",
+        "default": {
+          "fontPath": "./resource/images/CEC-IDE-LINE.woff",
+          "fontCharacter": "\\E900"
+        }
+      }
+    },
     "filters": {
+      "description": "cec-ide-line",
       "textFiles": [
         "txt"
       ]
