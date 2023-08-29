@@ -4,15 +4,27 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { encrypt, decrypt } from './utils/EncryptionAndDecryption';
 let statusBar: vscode.StatusBarItem; // 状态栏
+let selectedWindow :vscode.TextEditor
 
 const documentListeners: { [key: string]: vscode.Disposable } = {}; // 记录文件监听器
 const fileStates: { [key: string]: boolean } = {}; // 记录文件状态
+const mintCount : { [key: string]: number } = {}; //记录文件敏感词数量
 
-export function sensitiveWordDetectionInit(context: vscode.ExtensionContext,) {
-  fs.readFile(path.join(context.extensionPath, 'resource', 'text', 'SensitiveWordsEncryption.txt'), 'utf-8', (err, data) => {
+export function sensitiveWordDetectionInit(context: vscode.ExtensionContext) {
+  let sensitiveWordsFilePath = path.join(context.extensionPath, 'resource', 'text', 'SensitiveWordsEncryption.txt');
+  const customSensitiveWordsPath = path.join(context.extensionPath, 'resource', 'text', 'CustomSensitiveWords.txt');
+  try {
+    const data = fs.readFileSync(customSensitiveWordsPath, 'utf8');
+    // 如果自定义敏感词文件不为空，则使用该文件
+    if (!(data.trim() === "")) {
+      sensitiveWordsFilePath = customSensitiveWordsPath;
+    }
+  } catch (err) { }
+
+  fs.readFile(sensitiveWordsFilePath, 'utf-8', (err, data) => {
     if (err) {
       console.error(err);
-      vscode.window.showErrorMessage('敏感词检测出错！');
+      vscode.window.showErrorMessage('读取敏感词文件出错！');
       return;
     }
 
@@ -25,10 +37,11 @@ export function sensitiveWordDetectionInit(context: vscode.ExtensionContext,) {
 
     const markCommand = vscode.commands.registerCommand('cec-ide.mark-sensitive-words', () => {
       const editor = vscode.window.activeTextEditor;
-      if( editor && fileStates[editor.document.fileName]){
+      if (editor && fileStates[editor.document.fileName]) {
         return; // 已经检测种的文件不重复进行检测
       }
       if (editor && mint) {
+        setStatusbar("loading")
         activateDocumentChangeListener(editor.document, mint); // 注册文档更改监听器
         checkForSensitiveWords(editor, mint);
         fileStates[editor.document.fileName] = true; // 记录文件状态为已检测
@@ -36,31 +49,44 @@ export function sensitiveWordDetectionInit(context: vscode.ExtensionContext,) {
         vscode.window.showErrorMessage('没有活动的文本编辑器。');
       }
     });
-    const stopmarkCommand = vscode.commands.registerCommand('cec-ide.stop-mark-sensitive-words', () => {
-      const editor = vscode.window.activeTextEditor;
-      if (editor) {
-        stopSensitiveWordDetection(editor.document)
-      }
-    })
 
     // 创建状态栏项
     statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-    statusBar.text = '$(cec-ide-line) CEC-IDE'; // 默认状态
-    statusBar.command = 'cec-ide.mark-sensitive-words'; // 点击状态栏时触发命令
-    statusBar.tooltip = '点击开始CEC敏感词检测';
+    setStatusbar("default")
     statusBar.show();
 
     // 取消文档更改事件的监听
     vscode.workspace.onDidCloseTextDocument(closedDocument => {
-      if (documentListeners[closedDocument.fileName]) {
-        delete fileStates[closedDocument.fileName];
-        documentListeners[closedDocument.fileName].dispose();
-        delete documentListeners[closedDocument.fileName];
+      cleanUpDocument(closedDocument, () => {
         diagnosticCollection.delete(closedDocument.uri);
+      });
+    });
+
+    vscode.window.onDidChangeActiveTextEditor(editor => {
+      if (editor) {
+        selectedWindow = editor;
+        if (mintCount[selectedWindow.document.fileName]){
+          setStatusbar("listening",mintCount[selectedWindow.document.fileName])
+        }
+        else{
+          setStatusbar("default")
+        }
+      }else{
+        setStatusbar("default")
+      }
+    })
+
+
+    const stopCommand = vscode.commands.registerCommand('cec-ide.stop-mark-sensitive-words', () => {
+      const editor = vscode.window.activeTextEditor;
+      if (editor) {
+        stopSensitiveWordDetection(editor.document);
       }
     });
 
-    context.subscriptions.push(markCommand, stopmarkCommand, statusBar);
+    customSensitiveWords(context); // 自定义敏感词
+
+    context.subscriptions.push(markCommand, stopCommand);
   });
 }
 
@@ -69,9 +95,6 @@ function activateDocumentChangeListener(document: vscode.TextDocument, mint: Min
     const listener = vscode.workspace.onDidChangeTextDocument(event => {
       const editor = vscode.window.activeTextEditor;
       if (editor && editor.document === document && mint) {
-        statusBar.text = '$(cec-ide-line) 监听中';
-        statusBar.tooltip = '点击停止监听'
-        statusBar.command = 'cec-ide.stop-mark-sensitive-words'
         checkForSensitiveWords(editor, mint);
       }
     });
@@ -103,9 +126,8 @@ export function checkForSensitiveWords(editor: vscode.TextEditor, mint: Mint) {
       ];
 
       diagnostics.push(diagnostic);
-      statusBar.text = `$(cec-ide-line) 监听到${diagnostics.length}敏感词`;
-      statusBar.tooltip = '点击停止监听'
-      statusBar.command = 'cec-ide.stop-mark-sensitive-words'
+      mintCount[editor.document.fileName] = diagnostics.length;
+      setStatusbar("listening",mintCount[editor.document.fileName])
     }
   }
 
@@ -116,9 +138,9 @@ export function checkForSensitiveWords(editor: vscode.TextEditor, mint: Mint) {
     if (!fileStates[editor.document.fileName]) {
       const stopAction: vscode.MessageItem = { title: '停止检测' };
       vscode.window.showInformationMessage(
-          `开始检测${path.basename(document.fileName)}，共有${diagnostics.length}个敏感词。`,
-          stopAction
-        )
+        `开始检测${path.basename(document.fileName)}，共有${diagnostics.length}个敏感词。`,
+        stopAction
+      )
         .then((selectedAction) => {
           if (selectedAction === stopAction) {
             stopSensitiveWordDetection(editor.document);
@@ -127,27 +149,93 @@ export function checkForSensitiveWords(editor: vscode.TextEditor, mint: Mint) {
     }
   } else {
     vscode.window.showInformationMessage(`${path.basename(document.fileName)}中已没有敏感词，停止检测。`);
-    delete fileStates[document.fileName];
-    documentListeners[document.fileName].dispose();
-    delete documentListeners[document.fileName];
+    cleanUpDocument(document);
   }
 }
 
-function stopSensitiveWordDetection(document: vscode.TextDocument){
-  statusBar.text = '$(cec-ide-line) 停止监听...'; // 更新状态栏消息
-  statusBar.tooltip = 'CEC自主研发'
-  statusBar.command = undefined;
-  setTimeout(() => {
-    statusBar.text = '$(cec-ide-line) CEC-IDE'; // 回到默认状态
-    statusBar.command = 'cec-ide.mark-sensitive-words';
+function stopSensitiveWordDetection(document: vscode.TextDocument) {
+  setTimeout(()=>{
+    setStatusbar("stop")
   },2000)
+  cleanUpDocument(document, () => {
+    diagnosticCollection.delete(document.uri);
+    vscode.window.showInformationMessage(`已停止检测敏感词。`);
+  });
+}
+
+function cleanUpDocument(document: vscode.TextDocument, callback?: () => void) {
   if (fileStates[document.fileName]) {
+    setStatusbar("default")
     delete fileStates[document.fileName];
+    delete mintCount[document.fileName]
     if (documentListeners[document.fileName]) {
       documentListeners[document.fileName].dispose();
       delete documentListeners[document.fileName];
     }
-    diagnosticCollection.delete(document.uri);
-    vscode.window.showInformationMessage(`已停止检测敏感词。`);
+    if (callback) {
+      callback();
+    }
+  }
+}
+
+function customSensitiveWords(context: vscode.ExtensionContext) {
+  const customSensitiveWordsPath = path.join(context.extensionPath, 'resource', 'text', 'CustomSensitiveWords.txt');
+  const password = 'chuckle';
+
+  const uploadSensitiveWordsFile = vscode.commands.registerCommand('cec-ide.uploadSensitiveWordsFile', async () => {
+    const options: vscode.OpenDialogOptions = {
+      canSelectMany: false,
+      openLabel: 'Upload',
+      filters: {
+        'textFiles': ['txt']
+      }
+    };
+    const fileUri = await vscode.window.showOpenDialog(options);
+    if (fileUri && fileUri[0]) {
+      const filePath = fileUri[0].fsPath;
+      const fileContent = fs.readFileSync(filePath, 'utf-8');
+      fs.writeFile(customSensitiveWordsPath, encrypt(fileContent, password), 'utf8', (err) => {
+        if (err) {
+          vscode.window.showInformationMessage("自定义敏感词失败。");
+          return;
+        }
+        vscode.window.showInformationMessage("自定义敏感词完成,请重启VSCode");
+      });
+    }
+  });
+
+  const resetSensitiveWordsFile = vscode.commands.registerCommand('cec-ide.resetSensitiveWordsFile', async () => {
+    fs.writeFile(customSensitiveWordsPath, "", 'utf8', (err) => {
+      if (err) {
+        vscode.window.showInformationMessage("重置敏感词失败。");
+        return;
+      }
+      vscode.window.showInformationMessage("重置敏感词完成,请重启VSCode");
+    });
+  });
+
+  context.subscriptions.push(uploadSensitiveWordsFile, resetSensitiveWordsFile);
+}
+
+function setStatusbar(type: string,count?:number) {
+  if (type==="default"){
+    statusBar.command = 'cec-ide.mark-sensitive-words';
+    statusBar.text = '$(cec-ide-line) CEC-IDE';
+    statusBar.tooltip = '点击开始CEC敏感词检测';
+  }
+  else if(type==="loading"){
+    statusBar.text = `$(cec-ide-line) 正在检测敏感词中...`;
+    statusBar.tooltip = '点击停止检测'
+    statusBar.command = 'cec-ide.stop-mark-sensitive-words'
+  }
+  else if(type==="listening"){
+    statusBar.text = `$(cec-ide-line) 监听到${count}敏感词`;
+    statusBar.tooltip = '点击停止监听'
+    statusBar.command = 'cec-ide.stop-mark-sensitive-words'
+  }
+  else if(type==="stop"){
+    statusBar.text = '$(cec-ide-line) 停止检测...';
+    statusBar.command = undefined;
+    statusBar.tooltip = '正在停止中';
   }
 }
