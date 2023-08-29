@@ -14,7 +14,10 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": ["onStartupFinished", "onUriOpen"],
+  "activationEvents": [
+    "onStartupFinished",
+    "onUriOpen"
+  ],
   "main": "./out/extension.js",
   "icon": "resource/images/CEC-IDE.png",
   "contributes": {
@@ -54,6 +57,14 @@
       {
         "command": "cec-ide.stop-mark-sensitive-words",
         "title": "停止检测敏感词"
+      },
+      {
+        "command": "cec-ide.uploadSensitiveWordsFile",
+        "title": "CEC-UploadSensitiveWordsFile"
+      },
+      {
+        "command": "cec-ide.resetSensitiveWordsFile",
+        "title": "CEC-ResetSensitiveWordsFile"
       }
     ],
     "menus": {
@@ -83,7 +94,12 @@
         "mac": "alt+shift+n",
         "when": "editorTextFocus"
       }
-    ]
+    ],
+    "filters": {
+      "textFiles": [
+        "txt"
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
