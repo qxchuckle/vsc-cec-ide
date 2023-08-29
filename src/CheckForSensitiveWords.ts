@@ -48,12 +48,9 @@ export function sensitiveWordDetectionInit(context: vscode.ExtensionContext) {
 
     // 取消文档更改事件的监听
     vscode.workspace.onDidCloseTextDocument(closedDocument => {
-      if (documentListeners[closedDocument.fileName]) {
-        delete fileStates[closedDocument.fileName];
-        documentListeners[closedDocument.fileName].dispose();
-        delete documentListeners[closedDocument.fileName];
+      cleanUpDocument(closedDocument, () => {
         diagnosticCollection.delete(closedDocument.uri);
-      }
+      });
     });
 
     const stopCommand = vscode.commands.registerCommand('cec-ide.stop-mark-sensitive-words', () => {
@@ -126,25 +123,31 @@ export function checkForSensitiveWords(editor: vscode.TextEditor, mint: Mint) {
     }
   } else {
     vscode.window.showInformationMessage(`${path.basename(document.fileName)}中已没有敏感词，停止检测。`);
-    delete fileStates[document.fileName];
-    documentListeners[document.fileName].dispose();
-    delete documentListeners[document.fileName];
+    cleanUpDocument(document);
   }
 }
 
 function stopSensitiveWordDetection(document: vscode.TextDocument) {
+  cleanUpDocument(document, () => {
+    diagnosticCollection.delete(document.uri);
+    vscode.window.showInformationMessage(`已停止检测敏感词。`);
+  });
+}
+
+function cleanUpDocument(document: vscode.TextDocument, callback?: () => void) {
   if (fileStates[document.fileName]) {
     delete fileStates[document.fileName];
     if (documentListeners[document.fileName]) {
       documentListeners[document.fileName].dispose();
       delete documentListeners[document.fileName];
     }
-    diagnosticCollection.delete(document.uri);
-    vscode.window.showInformationMessage(`已停止检测敏感词。`);
+    if (callback) {
+      callback();
+    }
   }
 }
 
-function customSensitiveWords(context: vscode.ExtensionContext){
+function customSensitiveWords(context: vscode.ExtensionContext) {
   const customSensitiveWordsPath = path.join(context.extensionPath, 'resource', 'text', 'CustomSensitiveWords.txt');
   const password = 'chuckle';
 
@@ -169,15 +172,15 @@ function customSensitiveWords(context: vscode.ExtensionContext){
       });
     }
   });
-  
+
   const resetSensitiveWordsFile = vscode.commands.registerCommand('cec-ide.resetSensitiveWordsFile', async () => {
-      fs.writeFile(customSensitiveWordsPath, "", 'utf8', (err) => {
-        if (err) {
-          vscode.window.showInformationMessage("重置敏感词失败。");
-          return;
-        }
-        vscode.window.showInformationMessage("重置敏感词完成,请重启VSCode");
-      });
+    fs.writeFile(customSensitiveWordsPath, "", 'utf8', (err) => {
+      if (err) {
+        vscode.window.showInformationMessage("重置敏感词失败。");
+        return;
+      }
+      vscode.window.showInformationMessage("重置敏感词完成,请重启VSCode");
+    });
   });
 
   context.subscriptions.push(uploadSensitiveWordsFile, resetSensitiveWordsFile);
