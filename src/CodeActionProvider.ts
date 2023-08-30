@@ -27,7 +27,7 @@ export function createCodeActionProvider(diagnosticSource: string): vscode.Dispo
 
   // 注册 CodeActionProvider
   return vscode.languages.registerCodeActionsProvider(
-    { scheme: 'file' },
+    { scheme: '*' },
     new SensitiveWordCodeActionProvider()
   );
 }
