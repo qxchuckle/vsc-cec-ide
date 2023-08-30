@@ -24,7 +24,7 @@ export function customSensitiveWords(context: vscode.ExtensionContext) {
           vscode.window.showInformationMessage("自定义敏感词失败。");
           return;
         }
-        vscode.window.showInformationMessage("自定义敏感词完成,请重启VSCode");
+        vscode.window.showInformationMessage("自定义敏感词完成, 请重启 CEC-IDE");
       });
     }
   });
@@ -35,7 +35,7 @@ export function customSensitiveWords(context: vscode.ExtensionContext) {
         vscode.window.showInformationMessage("重置敏感词失败。");
         return;
       }
-      vscode.window.showInformationMessage("重置敏感词完成,请重启VSCode");
+      vscode.window.showInformationMessage("重置敏感词完成, 请重启 CEC-IDE");
     });
   });
 

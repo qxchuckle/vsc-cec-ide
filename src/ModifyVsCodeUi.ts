@@ -89,7 +89,7 @@ async function injectionCSS(context: vscode.ExtensionContext) {
 					vscode.window.showErrorMessage('很遗憾，国产化失败！');
 					return;
 				}
-				vscode.window.showInformationMessage('已完成国产化，请重启vscode查看！');
+				vscode.window.showInformationMessage('已完成国产化，请重启 CEC-IDE 查看！');
 			});
 		};
 
