@@ -1,19 +1,31 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
-import { detectSensitiveWords } from './DetectSensitiveWords';
+import { detectSensitiveWords, initializeSensitiveWords, PASSWORD } from './DetectSensitiveWords';
 import { customSensitiveWords } from './CustomSensitiveWords';
 
-export function sensitiveWordDetectionInit(context: vscode.ExtensionContext) {
-  const sensitiveWordsFilePath = getSensitiveWordsFilePath(context);
-  fs.readFile(sensitiveWordsFilePath, 'utf-8', (err, data) => {
-    if (err) {
-      console.error(err);
-      vscode.window.showErrorMessage('读取敏感词文件出错！');
-      return;
-    }
-    detectSensitiveWords(context, data); // 初始化对敏感词的检测
+import { mint } from './DetectSensitiveWords';
+
+export async function sensitiveWordDetectionInit(context: vscode.ExtensionContext) {
+  initializeSensitiveWordsSearcher(context).then(() => { 
+    detectSensitiveWords(context); // 初始化对敏感词的检测
     customSensitiveWords(context); // 自定义敏感词
+  });
+}
+
+// 读取敏感词数据集，并建立ac自动机方便搜索
+export function initializeSensitiveWordsSearcher(context: vscode.ExtensionContext) {
+  return new Promise<void>(resolve => {
+    const sensitiveWordsFilePath = getSensitiveWordsFilePath(context);
+    fs.readFile(sensitiveWordsFilePath, 'utf-8', (err, data) => {
+      if (err) {
+        console.error(err);
+        vscode.window.showErrorMessage('读取敏感词文件出错！');
+        return;
+      }
+      mint.value = initializeSensitiveWords(data, PASSWORD);
+      resolve();
+    });
   });
 }
 
