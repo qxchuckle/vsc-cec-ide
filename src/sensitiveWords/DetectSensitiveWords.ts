@@ -121,6 +121,7 @@ function detectionMarkDiagnosis(document: vscode.TextDocument, mint: ref<Mint>) 
 
   // 用于给敏感词正则插入标点符号匹配
   const regex = /(.)(?!$)/g;
+  const maximumSpacingCharacters = 5; // 敏感词匹配时最多允许间隔干扰字符，若有换行，每行独立计算，最多匹配一个换行
 
   for (const word of sensitiveWords) {
     let replacement;
@@ -128,11 +129,11 @@ function detectionMarkDiagnosis(document: vscode.TextDocument, mint: ref<Mint>) 
     let REX;
     // 如果原来的敏感词是纯英文单词，则按单词严格匹配
     if (/^[A-Za-z]+$/.test(word)) {
-      replacement = `$1[^a-zA-Z]*`;
+      replacement = `$1(?:(?!\n)[^\na-zA-Z]){0,${maximumSpacingCharacters}}(?:\n(?:(?!\n)[^\na-zA-Z]){0,${maximumSpacingCharacters}})?`;
       newWord = word.replace(regex, replacement);
       REX = `(?<![a-zA-Z])${newWord}(?![a-zA-Z])`;
     } else {
-      replacement = `$1[^\\u4e00-\\u9fa5]*`;
+      replacement = `$1(?:(?!\n)[^\n\\u4e00-\\u9fa5]){0,${maximumSpacingCharacters}}(?:\n(?:(?!\n)[^\n\\u4e00-\\u9fa5]){0,${maximumSpacingCharacters}})?`;
       newWord = word.replace(regex, replacement);
       REX = newWord;
     }
