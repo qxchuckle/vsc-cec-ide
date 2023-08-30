@@ -113,9 +113,9 @@ function cleanUpDocument(document: vscode.TextDocument, callback?: () => void) {
 // 检测敏感词、标记诊断
 function detectionMarkDiagnosis(document: vscode.TextDocument, mint: ref<Mint>) {
   const text = document.getText();
-  let textWithoutPunctuation = text.replace(/[^\u4e00-\u9fa5]/g, ''); // 只保留中文，用于检测 你#1a好 情况
-  textWithoutPunctuation += "#" + text.replace(/[^a-zA-Z\s\n\r\t,.;\\()*\/{}|]=+-\[\]/g, ''); // 只保留英文，用于检测 a#你1b 情况
-  textWithoutPunctuation += "#" + text.replace(/[^0-9]\s\n\r\t,.;\\()*\/{}|=+-\[\]/g, ''); // 只保留数字，用于检测 114514 情况
+  let textWithoutPunctuation = text.replace(/[^\u4e00-\u9fa5]*/g, ''); // 只保留中文，用于检测 你#1a好 情况
+  textWithoutPunctuation += "#" + text.replace(/[^a-zA-Z]*/g, ''); // 只保留英文，用于检测 a#你1b 情况
+  textWithoutPunctuation += "#" + text.replace(/[^0-9]*/g, ''); // 只保留数字，用于检测 114514 情况
   const sensitiveWords = new Set(mint.value.filter(textWithoutPunctuation).words); // 使用 Set 来存储唯一的敏感词
   const diagnostics: vscode.Diagnostic[] = [];
 
