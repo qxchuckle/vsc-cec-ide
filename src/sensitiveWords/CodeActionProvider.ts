@@ -27,6 +27,11 @@ export function createCodeActionProvider(diagnosticSource: string, diagnosticCol
       // 获取当前文档的诊断信息集合
       const diagnosticsOnCurrentDocument = diagnosticCollection.get(document.uri);
 
+      function applyEditToFixRange(edit: vscode.WorkspaceEdit, documentUri: vscode.Uri, range: vscode.Range): void {
+        const replacement = '*'.repeat(range.end.character - range.start.character);
+        edit.replace(documentUri, range, replacement);
+      }
+
       // 仅处理指定的诊断来源
       if (diagnosticsOnCurrentDocument ) {
         // 创建一键修复所有敏感词的 CodeAction
@@ -45,7 +50,7 @@ export function createCodeActionProvider(diagnosticSource: string, diagnosticCol
             currentRange = diagnostic.range;
           } else if (currentRange.end.isBeforeOrEqual(diagnostic.range.start)) {
             // 如果当前重叠范围的结束位置在当前诊断范围之前，添加之前的范围并重新开始记录
-            fixAll.edit!.replace(document.uri, currentRange, '*'.repeat(currentRange.end.character - currentRange.start.character));
+            applyEditToFixRange(fixAll.edit, document.uri, currentRange);
             currentRange = diagnostic.range;
           } else if (currentRange.end.isBefore(diagnostic.range.end)) {
             // 如果当前重叠范围的结束位置在当前诊断范围内，更新结束位置
@@ -55,7 +60,7 @@ export function createCodeActionProvider(diagnosticSource: string, diagnosticCol
 
         // 处理最后一个重叠范围
         if (currentRange) {
-          fixAll.edit!.replace(document.uri, currentRange, '*'.repeat(currentRange.end.character - currentRange.start.character));
+          applyEditToFixRange(fixAll.edit, document.uri, currentRange);
         }
 
         // 将修复操作应用到 CodeAction
