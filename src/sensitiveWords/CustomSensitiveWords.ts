@@ -3,6 +3,9 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { encrypt } from '../utils/EncryptionAndDecryption';
 
+import { initializeSensitiveWordsSearcher } from './CheckForSensitiveWords';
+import { isDetectingSensitiveWords, markSensitiveWords, stopMarkSensitiveWords, mint } from './DetectSensitiveWords';
+
 export function customSensitiveWords(context: vscode.ExtensionContext) {
   const customSensitiveWordsPath = path.join(context.extensionPath, 'resource', 'text', 'CustomSensitiveWords.txt');
   const password = 'chuckle';
@@ -24,7 +27,14 @@ export function customSensitiveWords(context: vscode.ExtensionContext) {
           vscode.window.showInformationMessage("自定义敏感词失败。");
           return;
         }
-        vscode.window.showInformationMessage("自定义敏感词完成, 请重启 CEC-IDE");
+        initializeSensitiveWordsSearcher(context).then(() => {
+          vscode.window.showInformationMessage('自定义敏感词完成');
+          if (isDetectingSensitiveWords) {
+            // 重启敏感词检测功能
+            stopMarkSensitiveWords();
+            markSensitiveWords(mint);
+          }
+        });
       });
     }
   });
@@ -35,7 +45,14 @@ export function customSensitiveWords(context: vscode.ExtensionContext) {
         vscode.window.showInformationMessage("重置敏感词失败。");
         return;
       }
-      vscode.window.showInformationMessage("重置敏感词完成, 请重启 CEC-IDE");
+      initializeSensitiveWordsSearcher(context).then(() => {
+        vscode.window.showInformationMessage('重置敏感词完成');
+        if (isDetectingSensitiveWords) {
+          // 重启敏感词检测功能
+          stopMarkSensitiveWords();
+          markSensitiveWords(mint);
+        }
+      });
     });
   });
 

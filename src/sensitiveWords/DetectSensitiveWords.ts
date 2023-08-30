@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import Mint from 'mint-filter';
+import { Mint } from 'mint-filter';
 import { decrypt } from '../utils/EncryptionAndDecryption';
 import SensitivityStatusBar from './SensitivityStatusBar';
 import { createCodeActionProvider } from './CodeActionProvider';
@@ -12,10 +12,13 @@ const documentListeners: { [key: string]: vscode.Disposable } = {};
 // 记录文件状态
 const fileStates: { [key: string]: boolean } = {};
 // 初始化敏感词状态栏
-const statusBar = new SensitivityStatusBar(fileStates); 
+const statusBar = new SensitivityStatusBar(fileStates);
 
-export function detectSensitiveWords(context: vscode.ExtensionContext, data: string) {
-  const mint = initializeSensitiveWords(data, 'chuckle');
+export const PASSWORD = 'chuckle';
+export const mint = { value: null } as unknown as ref<Mint>;
+export const isDetectingSensitiveWords = { value: false } as unknown as ref<boolean>;
+
+export function detectSensitiveWords(context: vscode.ExtensionContext) {
   const markCommand = vscode.commands.registerCommand('cec-ide.mark-sensitive-words', () => {
     markSensitiveWords(mint);
   });
@@ -38,7 +41,7 @@ export function detectSensitiveWords(context: vscode.ExtensionContext, data: str
 }
 
 // 获取敏感词
-function initializeSensitiveWords(data: string, password: string) {
+export function initializeSensitiveWords(data: string, password: string) {
   const decryptedText = decrypt(data, password); // 解密
   const sensitiveWordsArray = decryptedText.split('\n').map((word: string) => word.trim());
   const mint = new Mint(sensitiveWordsArray);
@@ -46,12 +49,13 @@ function initializeSensitiveWords(data: string, password: string) {
 }
 
 // 标记敏感词
-function markSensitiveWords(mint: Mint) {
+export function markSensitiveWords(mint: ref<Mint>) {
   const editor = vscode.window.activeTextEditor;
   if (editor && fileStates[editor.document.fileName]) {
     return; // 已经检测中的文件不重复进行检测
   }
   if (editor && mint) {
+    isDetectingSensitiveWords.value = true;
     if (detectionMarkDiagnosis(editor, mint)) {
       activateDocumentChangeListener(editor.document, mint); // 注册文档更改监听器
       fileStates[editor.document.fileName] = true; // 记录文件状态为已检测
@@ -62,7 +66,7 @@ function markSensitiveWords(mint: Mint) {
 }
 
 // 激活文档更改监听器
-function activateDocumentChangeListener(document: vscode.TextDocument, mint: Mint) {
+function activateDocumentChangeListener(document: vscode.TextDocument, mint: ref<Mint>) {
   if (!documentListeners[document.fileName]) {
     const listener = vscode.workspace.onDidChangeTextDocument(event => {
       const editor = vscode.window.activeTextEditor;
@@ -75,11 +79,12 @@ function activateDocumentChangeListener(document: vscode.TextDocument, mint: Min
 }
 
 // 停止检测敏感词
-function stopMarkSensitiveWords() {
+export function stopMarkSensitiveWords() {
   const editor = vscode.window.activeTextEditor;
   if (editor) {
     stopSensitiveWordDetection(editor.document);
   }
+  isDetectingSensitiveWords.value = false;
 }
 
 // 停止敏感词检测、清除标记
@@ -106,10 +111,10 @@ function cleanUpDocument(document: vscode.TextDocument, callback?: () => void) {
 }
 
 // 检测敏感词、标记诊断
-function detectionMarkDiagnosis(editor: vscode.TextEditor, mint: Mint) {
+function detectionMarkDiagnosis(editor: vscode.TextEditor, mint: ref<Mint>) {
   const document = editor.document;
   const text = document.getText();
-  const sensitiveWords = new Set(mint.filter(text).words); // 使用 Set 来存储唯一的敏感词
+  const sensitiveWords = new Set(mint.value.filter(text).words); // 使用 Set 来存储唯一的敏感词
   const diagnostics: vscode.Diagnostic[] = [];
 
   for (const word of sensitiveWords) {
