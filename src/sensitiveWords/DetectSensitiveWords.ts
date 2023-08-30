@@ -12,7 +12,7 @@ const documentListeners: { [key: string]: vscode.Disposable } = {};
 // 记录文件状态
 const fileStates: { [key: string]: boolean } = {};
 // 初始化敏感词状态栏
-const statusBar = new SensitivityStatusBar(fileStates); 
+const statusBar = new SensitivityStatusBar(fileStates);
 
 export function detectSensitiveWords(context: vscode.ExtensionContext, data: string) {
   const mint = initializeSensitiveWords(data, 'chuckle');
@@ -105,21 +105,40 @@ function cleanUpDocument(document: vscode.TextDocument, callback?: () => void) {
   }
 }
 
+
 // 检测敏感词、标记诊断
 function detectionMarkDiagnosis(editor: vscode.TextEditor, mint: Mint) {
   const document = editor.document;
   const text = document.getText();
-  const sensitiveWords = new Set(mint.filter(text).words); // 使用 Set 来存储唯一的敏感词
+  let textWithoutPunctuation = text.replace(/[^\u4e00-\u9fa5]/g, ''); // 只保留中文，用于检测 你#1a好 情况
+  textWithoutPunctuation += "#" + text.replace(/[^a-zA-Z\s\n\t,.;\\()]/g, ''); // 只保留英文，用于检测 a#你1b 情况
+  textWithoutPunctuation += "#" + text.replace(/[^0-9]/g, ''); // 只保留数字，用于检测 114514 情况
+  const sensitiveWords = new Set(mint.filter(textWithoutPunctuation).words); // 使用 Set 来存储唯一的敏感词
   const diagnostics: vscode.Diagnostic[] = [];
 
+  // 用于给敏感词正则插入标点符号匹配
+  const regex = /(.)(?!$)/g;
+
   for (const word of sensitiveWords) {
-    const REX = /^[A-Za-z]+$/.test(word) ? `\\b${word}\\b` : word;
+    let replacement;
+    let newWord; // 新敏感词能隔着标点符号匹配敏感词
+    let REX;
+    // 如果原来的敏感词是纯英文单词，则按单词严格匹配
+    if (/^[A-Za-z]+$/.test(word)) {
+      replacement = `$1[^a-zA-Z]*`;
+      newWord = word.replace(regex, replacement);
+      REX = `(?<![a-zA-Z])${newWord}(?![a-zA-Z])`;
+    } else {
+      replacement = `$1[^\\u4e00-\\u9fa5]*`;
+      newWord = word.replace(regex, replacement);
+      REX = newWord;
+    }
     const wordRegExp = new RegExp(`${REX}`, 'gi');
     let match;
 
     while ((match = wordRegExp.exec(text)) !== null) {
       const startPos = document.positionAt(match.index);
-      const endPos = document.positionAt(match.index + word.length);
+      const endPos = document.positionAt(match.index + match[0].length);
       const range = new vscode.Range(startPos, endPos);
 
       const diagnostic = new vscode.Diagnostic(range, '敏感词', vscode.DiagnosticSeverity.Warning);
