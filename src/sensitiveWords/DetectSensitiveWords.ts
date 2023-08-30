@@ -3,9 +3,10 @@ import * as path from 'path';
 import Mint from 'mint-filter';
 import { decrypt } from '../utils/EncryptionAndDecryption';
 import SensitivityStatusBar from './SensitivityStatusBar';
+import { createCodeActionProvider } from '../CodeActionProvider';
 
 // 创建一个诊断集合对象
-export const diagnosticCollection = vscode.languages.createDiagnosticCollection('sensitiveWords');
+const diagnosticCollection: vscode.DiagnosticCollection = vscode.languages.createDiagnosticCollection('sensitiveWords');
 // 记录文件监听器
 const documentListeners: { [key: string]: vscode.Disposable } = {};
 // 记录文件状态
@@ -22,6 +23,10 @@ export function detectSensitiveWords(context: vscode.ExtensionContext, data: str
     stopMarkSensitiveWords();
   });
   context.subscriptions.push(markCommand, stopCommand);
+
+  // 注册 CodeActionProvider，指定诊断来源
+  const codeActionProvider = createCodeActionProvider('敏感词检测', diagnosticCollection);
+  context.subscriptions.push(codeActionProvider);
 
   // 取消文档更改事件的监听
   vscode.workspace.onDidCloseTextDocument(closedDocument => {

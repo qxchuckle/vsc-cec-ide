@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
-import { createCodeActionProvider } from '../CodeActionProvider';
 import { detectSensitiveWords } from './DetectSensitiveWords';
 import { customSensitiveWords } from './CustomSensitiveWords';
 
@@ -14,9 +13,6 @@ export function sensitiveWordDetectionInit(context: vscode.ExtensionContext) {
       return;
     }
     detectSensitiveWords(context, data); // 初始化对敏感词的检测
-    // 注册 CodeActionProvider，指定诊断来源
-    const codeActionProvider = createCodeActionProvider('敏感词检测');
-    context.subscriptions.push(codeActionProvider);
     customSensitiveWords(context); // 自定义敏感词
   });
 }
