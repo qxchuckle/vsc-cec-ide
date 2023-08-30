@@ -21,19 +21,23 @@ export function createCodeActionProvider(diagnosticSource: string, diagnosticCol
         return fix;
       }).filter((fix): fix is vscode.CodeAction => fix !== null);
       // 如果没有可修复的，也就不用往后执行了
-      if(fixes.length === 0) { return []; }
+      if (fixes.length === 0) { return []; }
       actions.push(...fixes);
 
       // 获取当前文档的诊断信息集合
       const diagnosticsOnCurrentDocument = diagnosticCollection.get(document.uri);
 
-      function applyEditToFixRange(edit: vscode.WorkspaceEdit, documentUri: vscode.Uri, range: vscode.Range): void {
+      const applyEditToFixRange = (
+        edit: vscode.WorkspaceEdit, 
+        documentUri: vscode.Uri, 
+        range: vscode.Range
+      ): void => {
         const replacement = '*'.repeat(range.end.character - range.start.character);
         edit.replace(documentUri, range, replacement);
-      }
+      };
 
       // 仅处理指定的诊断来源
-      if (diagnosticsOnCurrentDocument ) {
+      if (diagnosticsOnCurrentDocument) {
         // 创建一键修复所有敏感词的 CodeAction
         const fixAll = new vscode.CodeAction('一键修复所有敏感词', vscode.CodeActionKind.QuickFix);
         fixAll.edit = new vscode.WorkspaceEdit();
