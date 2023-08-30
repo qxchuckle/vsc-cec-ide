@@ -25,7 +25,7 @@ English document at the end of the text
 
 ### 1、敏感词检测 
 
-在任意文件，右键，点击敏感词检测，将会持续检测该文件是否有敏感词，若文件关闭或没有敏感词，则停止检测。右键点击停止检测敏感词可以手动停止检测。
+在任意文件，右键，点击敏感词检测，将会持续检测该文件是否有敏感词，若文件关闭或没有敏感词，则停止检测。右键点击停止检测敏感词可以手动停止检测。 即使隔着干扰字符也能检测到。
 
 **快捷键:** `alt+shift+m` 检测，`alt+shift+n` 停止检测。
 
@@ -33,7 +33,7 @@ English document at the end of the text
 1. `CEC-UploadSensitiveWordsFile` 上传自定义敏感词txt文件，格式：一行一个敏感词。
 2. `CEC-ResetSensitiveWordsFile` 重置为插件自带的敏感词。
 
-![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/49e49ff2-8db6-4dac-ba3b-94899db3e226)
+![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/9ef1cf17-5c01-4cc5-86ce-dd879e0dc60e)
 
 0.1.3 版本后新增了快速修复功能，一键替换该敏感词或所有敏感词为***
 
