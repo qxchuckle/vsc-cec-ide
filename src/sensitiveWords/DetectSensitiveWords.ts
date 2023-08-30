@@ -108,7 +108,8 @@ function detectionMarkDiagnosis(editor: vscode.TextEditor, mint: Mint) {
   const diagnostics: vscode.Diagnostic[] = [];
 
   for (const word of sensitiveWords) {
-    const wordRegExp = new RegExp(word, 'gi');
+    const REX = /^[A-Za-z]+$/.test(word) ? `\\b${word}\\b` : word;
+    const wordRegExp = new RegExp(`${REX}`, 'gi');
     let match;
 
     while ((match = wordRegExp.exec(text)) !== null) {
