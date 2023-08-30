@@ -29,13 +29,13 @@ English document at the end of the text
 
 **快捷键:** `alt+shift+m` 检测，`alt+shift+n` 停止检测。
 
-**命令:**
+**命令:**敏感词支持**热重载**
 1. `CEC-UploadSensitiveWordsFile` 上传自定义敏感词txt文件，格式：一行一个敏感词。
 2. `CEC-ResetSensitiveWordsFile` 重置为插件自带的敏感词。
 
 ![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/9ef1cf17-5c01-4cc5-86ce-dd879e0dc60e)
 
-0.1.3 版本后新增了快速修复功能，一键替换该敏感词或所有敏感词为***
+有快速修复功能，一键替换该敏感词或所有敏感词为***
 
 点击右下角状态栏按钮，也能开始检测或停止检测，且在检测中会显示当前活动编辑器含有的敏感词数。
 
