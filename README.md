@@ -35,9 +35,7 @@ English document at the end of the text
 
 ![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/49e49ff2-8db6-4dac-ba3b-94899db3e226)
 
-0.1.3 版本后新增了快速修复功能，一键替换为***
-
-![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/091a63f6-b16d-4b5e-93ad-403807582d25)
+0.1.3 版本后新增了快速修复功能，一键替换该敏感词或所有敏感词为***
 
 点击右下角状态栏按钮，也能开始检测或停止检测，且在检测中会显示当前活动编辑器含有的敏感词数。
 
