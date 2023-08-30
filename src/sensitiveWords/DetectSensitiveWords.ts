@@ -5,7 +5,7 @@ import { decrypt } from '../utils/EncryptionAndDecryption';
 import SensitivityStatusBar from './SensitivityStatusBar';
 
 // 创建一个诊断集合对象
-const diagnosticCollection = vscode.languages.createDiagnosticCollection('sensitiveWords');
+export const diagnosticCollection = vscode.languages.createDiagnosticCollection('sensitiveWords');
 // 记录文件监听器
 const documentListeners: { [key: string]: vscode.Disposable } = {};
 // 记录文件状态
