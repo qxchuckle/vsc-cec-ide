@@ -17,16 +17,16 @@ export function createCodeActionProvider(diagnosticSource: string, diagnosticCol
           fix.edit.replace(document.uri, diagnostic.range, '*'.repeat(diagnostic.range.end.character - diagnostic.range.start.character));
           fix.diagnostics = [diagnostic];
           actions.push(fix);
-        }
-        const diagnosticsOnCurrentDocument = diagnosticCollection.get(document.uri);
-        if (diagnosticsOnCurrentDocument) {
-          const fixAll = new vscode.CodeAction('一键修复所有敏感词', vscode.CodeActionKind.QuickFix);
-          fixAll.edit = new vscode.WorkspaceEdit();
-          diagnosticsOnCurrentDocument.forEach(diagnostic => {
-            fixAll.edit!.replace(document.uri, diagnostic.range, '*'.repeat(diagnostic.range.end.character - diagnostic.range.start.character));
-          });
-          fixAll.diagnostics = [...diagnosticsOnCurrentDocument];
-          actions.push(fixAll);
+          const diagnosticsOnCurrentDocument = diagnosticCollection.get(document.uri);
+          if (diagnosticsOnCurrentDocument) {
+            const fixAll = new vscode.CodeAction('一键修复所有敏感词', vscode.CodeActionKind.QuickFix);
+            fixAll.edit = new vscode.WorkspaceEdit();
+            diagnosticsOnCurrentDocument.forEach(diagnostic => {
+              fixAll.edit!.replace(document.uri, diagnostic.range, '*'.repeat(diagnostic.range.end.character - diagnostic.range.start.character));
+            });
+            fixAll.diagnostics = [...diagnosticsOnCurrentDocument];
+            actions.push(fixAll);
+          }
         }
       }
       return actions;

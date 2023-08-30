@@ -3,7 +3,7 @@ import * as path from 'path';
 import Mint from 'mint-filter';
 import { decrypt } from '../utils/EncryptionAndDecryption';
 import SensitivityStatusBar from './SensitivityStatusBar';
-import { createCodeActionProvider } from '../CodeActionProvider';
+import { createCodeActionProvider } from './CodeActionProvider';
 
 // 创建一个诊断集合对象
 const diagnosticCollection: vscode.DiagnosticCollection = vscode.languages.createDiagnosticCollection('sensitiveWords');
