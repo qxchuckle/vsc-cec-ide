@@ -28,8 +28,8 @@ export function createCodeActionProvider(diagnosticSource: string, diagnosticCol
       const diagnosticsOnCurrentDocument = diagnosticCollection.get(document.uri);
 
       const applyEditToFixRange = (
-        edit: vscode.WorkspaceEdit, 
-        documentUri: vscode.Uri, 
+        edit: vscode.WorkspaceEdit,
+        documentUri: vscode.Uri,
         range: vscode.Range
       ): void => {
         const replacement = '*'.repeat(range.end.character - range.start.character);
