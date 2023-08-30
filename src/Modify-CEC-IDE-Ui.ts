@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 
-export function modifyVsCodeUI(context: vscode.ExtensionContext){
+export function modifyCECIDEUI(context: vscode.ExtensionContext){
   const mainCommand = vscode.commands.registerCommand('cec-ide.cec-ide', () => {
 		injectionCSS(context);
 	});
