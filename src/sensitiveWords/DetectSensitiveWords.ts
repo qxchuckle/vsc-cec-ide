@@ -118,7 +118,7 @@ function detectionMarkDiagnosis(editor: vscode.TextEditor, mint: ref<Mint>) {
   let textWithoutPunctuation = text.replace(/[^\u4e00-\u9fa5]/g, ''); // 只保留中文，用于检测 你#1a好 情况
   textWithoutPunctuation += "#" + text.replace(/[^a-zA-Z\s\n\t,.;\\()]/g, ''); // 只保留英文，用于检测 a#你1b 情况
   textWithoutPunctuation += "#" + text.replace(/[^0-9]/g, ''); // 只保留数字，用于检测 114514 情况
-  const sensitiveWords = new Set(mint.filter(textWithoutPunctuation).words); // 使用 Set 来存储唯一的敏感词
+  const sensitiveWords = new Set(mint.value.filter(textWithoutPunctuation).words); // 使用 Set 来存储唯一的敏感词
   const diagnostics: vscode.Diagnostic[] = [];
 
   // 用于给敏感词正则插入标点符号匹配
