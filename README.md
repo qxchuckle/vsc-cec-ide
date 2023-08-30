@@ -55,7 +55,7 @@ English document at the end of the text
 
 软件的图标修改插件做不到
 
-请下载仓库内 **CEC-IDE.ico** 自行右键-属性-更改图标
+请下载仓库内 **CEC-IDE.ico** 自行右键-属性-更改图标（对于MacOS用户，请使用 CEC-IDE.icns）
 
 ## CEC-IDE English Document
 
