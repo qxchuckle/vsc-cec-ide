@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import { encrypt } from '../utils/EncryptionAndDecryption';
 
 import { initializeSensitiveWordsSearcher } from './CheckForSensitiveWords';
-import { isDetectingSensitiveWords, markSensitiveWords, stopMarkSensitiveWords, mint } from './DetectSensitiveWords';
+import { restartSensitiveWordDetectionFunction } from './DetectSensitiveWords';
 
 export function customSensitiveWords(context: vscode.ExtensionContext) {
   const customSensitiveWordsPath = path.join(context.extensionPath, 'resource', 'text', 'CustomSensitiveWords.txt');
@@ -29,11 +29,7 @@ export function customSensitiveWords(context: vscode.ExtensionContext) {
         }
         initializeSensitiveWordsSearcher(context).then(() => {
           vscode.window.showInformationMessage('自定义敏感词完成');
-          if (isDetectingSensitiveWords) {
-            // 重启敏感词检测功能
-            stopMarkSensitiveWords();
-            markSensitiveWords(mint);
-          }
+          restartSensitiveWordDetectionFunction();
         });
       });
     }
@@ -47,14 +43,17 @@ export function customSensitiveWords(context: vscode.ExtensionContext) {
       }
       initializeSensitiveWordsSearcher(context).then(() => {
         vscode.window.showInformationMessage('重置敏感词完成');
-        if (isDetectingSensitiveWords) {
-          // 重启敏感词检测功能
-          stopMarkSensitiveWords();
-          markSensitiveWords(mint);
-        }
+        restartSensitiveWordDetectionFunction();
       });
     });
   });
 
   context.subscriptions.push(uploadSensitiveWordsFile, resetSensitiveWordsFile);
 }
+
+
+
+
+
+
+
