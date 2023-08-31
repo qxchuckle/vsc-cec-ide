@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { sidebarInit } from './sidebar/sidebarInit';
 import { sensitiveWordDetectionInit } from './sensitiveWords/CheckForSensitiveWords';
 import { modifyVsCodeUI } from './ModifyVsCodeUi';
+import initializeTypeDetector from './typeDetector/main';
 
 export function activate(context: vscode.ExtensionContext) {
 	// 初始化侧边栏
@@ -10,6 +11,9 @@ export function activate(context: vscode.ExtensionContext) {
 	sensitiveWordDetectionInit(context);
 	// 修改VSCodeUI
 	modifyVsCodeUI(context);
+
+	// 初始化 Typescript 类型标记功能
+	initializeTypeDetector(context);
 }
 
 export function deactivate() { }
