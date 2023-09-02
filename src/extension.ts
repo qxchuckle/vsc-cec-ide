@@ -11,7 +11,6 @@ export function activate(context: vscode.ExtensionContext) {
 	sensitiveWordDetectionInit(context);
 	// 修改VSCodeUI
 	modifyVsCodeUI(context);
-
 	// 初始化 Typescript 类型标记功能
 	// initializeTypeDetector(context);
 }

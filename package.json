@@ -132,10 +132,10 @@
     "@vscode/test-electron": "^2.3.4",
     "eslint": "^8.47.0",
     "glob": "^10.3.3",
-    "mocha": "^10.2.0"
+    "mocha": "^10.2.0",
+    "typescript": "^5.1.6"
   },
   "dependencies": {
-    "mint-filter": "^4.0.3",
-    "typescript": "^5.1.6"
+    "mint-filter": "^4.0.3"
   }
 }
