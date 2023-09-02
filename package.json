@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/qxchuckle/vsc-cec-ide.git"
   },
-  "version": "0.2.3",
+  "version": "0.2.4",
   "engines": {
     "vscode": "^1.70.0"
   },
