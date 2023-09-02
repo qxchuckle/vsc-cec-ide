@@ -4,7 +4,7 @@
 
 ![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/e78c4a3a-f8b7-47d0-9971-fdc4ffff2ed8)
 
-English document at the end of the text
+English documentation at the end of this document
 
 已上架VSCode插件市场[CEC-IDE](https://marketplace.visualstudio.com/items?itemName=qcqx.cec-ide)
 
