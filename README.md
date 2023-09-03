@@ -4,14 +4,10 @@
 
 ![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/e78c4a3a-f8b7-47d0-9971-fdc4ffff2ed8)
 
-English documentation at the end of this document
-
-已上架VSCode插件市场[CEC-IDE](https://marketplace.visualstudio.com/items?itemName=qcqx.cec-ide)
-
-下载vsix可前往[releases](https://github.com/qxchuckle/vsc-cec-ide/releases)
+已上架VSCode插件市场[CEC-IDE](https://marketplace.visualstudio.com/items?itemName=qcqx.cec-ide)，下载vsix可前往[releases](https://github.com/qxchuckle/vsc-cec-ide/releases)
 
 **命令：** Ctrl+Shift+P 打开命令中心
-1. `CEC-IDE` 进行国产化
+1. `CEC-IDE` 进行国产化（国产化只是修改VSC的UI样式，不执行也能使用敏感词等功能）
 2. `CEC-IDE-RESTORE` 去除国产化
 
 ![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/712346f4-61e5-4118-a650-cfab5bcfebcc)
@@ -20,6 +16,10 @@ English documentation at the end of this document
 1. 请确保以管理员身份运行VSCode。
 2. 最好不要多次执行 `CEC-IDE`，除了首次，后续执行 `CEC-IDE` 前请先执行 `CEC-IDE-RESTORE`。若没能国产化，请提 Issues。
 3. 提示code损坏请装 [Fix VSCode Checksums](https://marketplace.visualstudio.com/items?itemName=lehni.vscode-fix-checksums) 插件，然后执行 `Fix Checksums: Apply` 命令。
+
+在设置中可以自定义侧边栏视图的一些信息：
+
+
 
 ## 实用功能
 
