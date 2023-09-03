@@ -19,7 +19,7 @@
 
 在设置中可以自定义侧边栏视图的一些信息：
 
-
+![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/fda2cb4f-e067-473d-93f4-091f108d7813)
 
 ## 实用功能
 
