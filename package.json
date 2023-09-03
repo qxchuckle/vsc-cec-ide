@@ -137,9 +137,7 @@
       }
     }
   },
-  "extensionKind": [
-    "ui"
-  ],
+  "extensionKind": ["ui", "workspace"],
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",

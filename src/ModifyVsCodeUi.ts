@@ -2,11 +2,13 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 
-export function modifyVsCodeUI(context: vscode.ExtensionContext){
-  const mainCommand = vscode.commands.registerCommand('cec-ide.cec-ide', () => {
+export function modifyVsCodeUI(context: vscode.ExtensionContext) {
+	const mainCommand = vscode.commands.registerCommand('cec-ide.cec-ide', () => {
+		if (!checkTheEnvironment()) { return; }
 		injectionCSS(context);
 	});
 	const restoreCommand = vscode.commands.registerCommand('cec-ide.cec-ide-restore', () => {
+		if (!checkTheEnvironment()) { return; }
 		restoreCSS();
 	});
 	context.subscriptions.push(mainCommand, restoreCommand);
@@ -138,5 +140,15 @@ async function readImageAsBase64(imagePath: string): Promise<string> {
 		console.error('Error reading image:', err);
 		vscode.window.showErrorMessage('很遗憾，国产化失败！');
 		throw err;
+	}
+}
+
+
+function checkTheEnvironment(): boolean {
+	if (vscode.env.remoteName) {
+		vscode.window.showErrorMessage('该功能仅能在本地端能使用，请将插件安装在本地而非远端。');
+		return false;
+	} else {
+		return true;
 	}
 }
