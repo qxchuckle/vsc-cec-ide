@@ -107,6 +107,11 @@
   margin-top: 2px;
 }
 
+.vip-box.no-vip {
+  background-color: #333333;
+  color: #fff;
+}
+
 .vip {
   font-size: 12px;
   font-weight: bold;

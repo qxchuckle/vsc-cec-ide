@@ -110,6 +110,31 @@
       "textFiles": [
         "txt"
       ]
+    },
+    "configuration": {
+      "title": "CEC-IDE",
+      "properties": {
+        "cec-ide-sidebar.activateVip": {
+          "type": "boolean",
+          "default": true,
+          "description": "是否激活VIP"
+        },
+        "cec-ide-sidebar.grade": {
+          "type": "string",
+          "default": "SVIP10",
+          "description": "会员等级"
+        },
+        "cec-ide-sidebar.deadline": {
+          "type": "string",
+          "default": "2077-07-07",
+          "description": "会员截止日期"
+        },
+        "cec-ide-sidebar.username": {
+          "type": "string",
+          "default": "TheUser",
+          "description": "用户名"
+        }
+      }
     }
   },
   "extensionKind": [
