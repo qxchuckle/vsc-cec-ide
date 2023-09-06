@@ -60,7 +60,7 @@ class AdolescentStatusBar {
         const openAction: vscode.MessageItem = { title: '关闭编辑器' };
         const antiAddictionAction: vscode.MessageItem = { title: '此次关闭提醒' };
         vscode.window.showInformationMessage(
-          `今日已使用编辑器 ${time} 小时，超过所设置的 ${this.antiAddictionTime}小时防沉迷时间，请关闭编辑器`,
+          `今日已使用编辑器 ${time} 小时，超过所设置的 ${this.antiAddictionTime} 小时防沉迷时间，请关闭编辑器`,
           openAction,
           antiAddictionAction
         ).then((selectedAction) => {
