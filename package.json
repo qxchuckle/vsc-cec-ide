@@ -139,10 +139,25 @@
           "default": "",
           "description": "自定义侧边栏头像,如C:\\picture\\avatar.png"
         },
-        "cec-ide-sidebar.adolescentMode": {
+        "cec-ide-adolescentMode.enabled": {
           "type": "boolean",
           "default": true,
           "description": "开启青少年防沉迷模式"
+        },
+        "cec-ide-adolescentMode.antiAddictionTime": {
+          "type": "number",
+          "default": 2,
+          "description": "设置每日防沉迷时间(小时)"
+        },
+        "cec-ide-adolescentMode.turnOffActivationReminder": {
+          "type": "boolean",
+          "default": false,
+          "description": "永久关闭提醒开启青少年模式的弹窗"
+        },
+        "cec-ide-adolescentMode.turnOffAntiAddictionReminder": {
+          "type": "boolean",
+          "default": false,
+          "description": "永久关闭防沉迷提醒的弹窗"
         }
       }
     }
