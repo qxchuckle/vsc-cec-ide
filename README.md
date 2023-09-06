@@ -46,7 +46,7 @@
 ### 2、青少年防沉迷模式
 启用青少年模式后（默认开启），右下角会新增一个状态栏项，记录当天编辑器使用时间。若超过所设置的防沉迷时间（默认2小时），则会提醒关闭编辑器。
 
-![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/1459493e-a28a-42fd-9b95-d395a2eff9ca)
+![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/14cf0ec9-55b0-4cc8-b34d-fa9ca6d9d7df)
 
 若没有启用青少年模式，则每次打开编辑器，都会提醒开启青少年模式。
 
