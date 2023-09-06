@@ -132,7 +132,17 @@
         "cec-ide-sidebar.username": {
           "type": "string",
           "default": "TheUser",
-          "description": "用户名"
+          "description": "自定义用户名"
+        },
+        "cec-ide-sidebar.avatar": {
+          "type": "string",
+          "default": "",
+          "description": "自定义侧边栏头像,如C:\\picture\\avatar.png"
+        },
+        "cec-ide-sidebar.adolescentMode": {
+          "type": "boolean",
+          "default": true,
+          "description": "开启青少年防沉迷模式"
         }
       }
     }

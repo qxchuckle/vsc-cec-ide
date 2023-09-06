@@ -40,6 +40,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     const vip = `<div class="vip-box${activateVip ? '' : ' no-vip'}">
   <div class="vip">${activateVip ? sidebarConfig.get('grade') : 'VIP0'}</div>
 </div>`;
+    const avatarBase64 = readImageAsBase64(sidebarConfig.get('avatar'));
     htmlContent = htmlContent.replace(
       /#username/g, // 替换用户名
       `${username}`
@@ -53,11 +54,27 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       /#VIP/g, // 替换会员等级
       `${vip}`
     ).replace(
+      /#avatar/g, // 替换头像
+      `${avatarBase64}`
+    ).replace(
       /#extensionPath/g, // 替换资源根路径
       `${extensionPath}`
     );
 
     return htmlContent;
+  }
+}
+
+function readImageAsBase64(imagePath: string | undefined): string {
+  if (!imagePath) {
+    return "#extensionPath/resource/images/avatar.png";
+  }
+  try {
+    const data = fs.readFileSync(imagePath);
+    const base64Image = "data:image/png;base64," + data.toString('base64');
+    return base64Image;
+  } catch (err) {
+    return "#extensionPath/resource/images/avatar.png";
   }
 }
 
