@@ -6,7 +6,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
   _doc?: vscode.TextDocument;
   private _htmlFileName: string;
 
-  constructor(private readonly _extensionUri: vscode.Uri, htmlFileName: string) {
+  constructor(private readonly _context: vscode.ExtensionContext, private readonly _extensionUri: vscode.Uri, htmlFileName: string) {
     this._htmlFileName = htmlFileName;
   }
 
@@ -40,7 +40,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     const vip = `<div class="vip-box${activateVip ? '' : ' no-vip'}">
   <div class="vip">${activateVip ? sidebarConfig.get('grade') : 'VIP0'}</div>
 </div>`;
-    const avatarBase64 = readImageAsBase64(sidebarConfig.get('avatar'));
+    const avatarBase64 = this.readImageAsBase64(sidebarConfig.get('avatar'));
     htmlContent = htmlContent.replace(
       /#username/g, // 替换用户名
       `${username}`
@@ -63,19 +63,28 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
     return htmlContent;
   }
+
+  private readImageAsBase64(imagePath: string | undefined): string {
+    const basePath = "#extensionPath/resource/images/avatar.png";
+    if (!imagePath) {
+      return basePath;
+    }
+    try {
+      const globalState = this._context.globalState;
+      if(imagePath === globalState.get('avatarPath') && globalState.get('avatarBase64')){
+        return globalState.get('avatarBase64')!;
+      }
+      const data = fs.readFileSync(imagePath);
+      const base64Image = "data:image/png;base64," + data.toString('base64');
+      globalState.update('avatarPath', imagePath);
+      globalState.update('avatarBase64', base64Image);
+      return base64Image;
+    } catch (err) {
+      return basePath;
+    }
+  }
 }
 
-function readImageAsBase64(imagePath: string | undefined): string {
-  if (!imagePath) {
-    return "#extensionPath/resource/images/avatar.png";
-  }
-  try {
-    const data = fs.readFileSync(imagePath);
-    const base64Image = "data:image/png;base64," + data.toString('base64');
-    return base64Image;
-  } catch (err) {
-    return "#extensionPath/resource/images/avatar.png";
-  }
-}
+
 
 
