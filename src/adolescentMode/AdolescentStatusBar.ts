@@ -7,6 +7,8 @@ class AdolescentStatusBar {
   private antiAddictionTime: number;
   private adolescentModeConfig = vscode.workspace.getConfiguration('cec-ide-adolescentMode');
   private timer: NodeJS.Timer;
+  private antiAddictionRemind = true;
+  private numberOfSynchronizations = 0;
 
   constructor(private readonly _context: vscode.ExtensionContext) {
     this.antiAddictionTime = this.adolescentModeConfig.get('antiAddictionTime') || 2;
@@ -39,6 +41,9 @@ class AdolescentStatusBar {
   }
 
   private updateStatus() {
+    if (this.numberOfSynchronizations < 2) {
+      this.activeTime = this.globalState.get('cec-ide-activeTime') || 0;// 同步2次
+    }
     this.activeTime++;
     this.globalState.update('cec-ide-activeTime', this.activeTime);
     this.formatActiveTime();
@@ -51,9 +56,9 @@ class AdolescentStatusBar {
       const time = (this.activeTime / 60).toFixed(2);
       this.statusBar.text = `$(cec-ide-line)${time} 小时`;
       // 超过防沉迷时间弹窗
-      if (!this.adolescentModeConfig.get('turnOffAntiAddictionReminder') && this.activeTime > this.antiAddictionTime * 60) {
+      if (!this.adolescentModeConfig.get('turnOffAntiAddictionReminder') && this.antiAddictionRemind && this.activeTime > this.antiAddictionTime * 60) {
         const openAction: vscode.MessageItem = { title: '关闭编辑器' };
-        const antiAddictionAction: vscode.MessageItem = { title: '永久关闭防沉迷提醒' };
+        const antiAddictionAction: vscode.MessageItem = { title: '此次关闭提醒' };
         vscode.window.showInformationMessage(
           `今日已使用编辑器 ${time} 小时，超过所设置的 ${this.antiAddictionTime}小时防沉迷时间，请关闭编辑器`,
           openAction,
@@ -61,8 +66,8 @@ class AdolescentStatusBar {
         ).then((selectedAction) => {
           if (selectedAction === openAction) {
             vscode.commands.executeCommand('workbench.action.closeWindow');
-          }else if (selectedAction === antiAddictionAction) {
-            this.adolescentModeConfig.update('turnOffAntiAddictionReminder', true, vscode.ConfigurationTarget.Global);
+          } else if (selectedAction === antiAddictionAction) {
+            this.antiAddictionRemind = false;
           }
         });
       }
