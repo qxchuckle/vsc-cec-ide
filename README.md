@@ -1,6 +1,6 @@
 # CEC-IDE
 
-国产化你的VSCode，附带敏感词检测等功能
+国产化你的VSCode，附带敏感词检测、防沉迷等功能
 
 ![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/e78c4a3a-f8b7-47d0-9971-fdc4ffff2ed8)
 
