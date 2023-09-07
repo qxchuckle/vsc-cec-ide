@@ -95,6 +95,7 @@ class AdolescentStatusBar {
     this.antiAddictionTime = this.adolescentModeConfig.get('antiAddictionTime') || 2;
     this.turnOffAntiAddictionReminder = this.adolescentModeConfig.get('turnOffAntiAddictionReminder')!;
     this.numberOfSynchronizations = 0;
+    this.formatActiveTime();
     this.intervalInit();
   }
 
