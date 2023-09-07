@@ -27,11 +27,11 @@ class AdolescentStatusBar {
     this.statusBar.show();
     this._context.subscriptions.push(vscode.commands.registerCommand('cec-ide.antiAddictionRemind', () => {
       this.antiAddictionRemind = !this.antiAddictionRemind;
-      if(this.antiAddictionRemind){
+      if (this.antiAddictionRemind) {
         this.formatActiveTime();
         vscode.window.showInformationMessage('已开启防沉迷提醒');
         this.statusBar.tooltip = '点击临时关闭防沉迷检测';
-      }else{
+      } else {
         vscode.window.showInformationMessage('已临时关闭防沉迷检测');
         this.statusBar.tooltip = '点击开启防沉迷检测';
       }
@@ -54,7 +54,7 @@ class AdolescentStatusBar {
   private intervalInit() {
     this.timer = setInterval(() => {
       this.updateStatus();
-    }, 3000);
+    }, 60 * 1000);
   }
 
   private updateStatus() {
