@@ -1,7 +1,7 @@
 {
   "name": "cec-ide",
   "displayName": "CEC-IDE",
-  "description": "国产化你的VSCode,来源于CEC-IDE,有敏感词检测功能,这下自主创新了!",
+  "description": "国产化你的VSCode,来源于CEC-IDE,有敏感词检测功能、防沉迷模式,这下自主创新了!",
   "publisher": "qcqx",
   "repository": {
     "type": "git",
