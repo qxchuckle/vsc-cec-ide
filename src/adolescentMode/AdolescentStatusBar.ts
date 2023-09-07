@@ -43,7 +43,7 @@ class AdolescentStatusBar {
   private intervalInit() {
     this.timer = setInterval(() => {
       this.updateStatus();
-    }, 4000);
+    }, 60 * 1000);
   }
 
   private updateStatus() {
