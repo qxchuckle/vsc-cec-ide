@@ -26,6 +26,11 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     this._view = panel;
   }
 
+  public reloadWebview() {
+    const htmlContent = this._getHtmlContent(this._view!.webview);
+    this._view!.webview.html = htmlContent;
+  }
+
   private _getHtmlContent(webview: vscode.Webview) {
     const htmlFilePath = vscode.Uri.joinPath(this._extensionUri, 'resource', 'page', this._htmlFileName);
     let htmlContent = fs.readFileSync(htmlFilePath.fsPath, "utf-8");
@@ -71,7 +76,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     }
     try {
       const globalState = this._context.globalState;
-      if(imagePath === globalState.get('avatarPath') && globalState.get('avatarBase64')){
+      if (imagePath === globalState.get('avatarPath') && globalState.get('avatarBase64')) {
         return globalState.get('avatarBase64')!;
       }
       const data = fs.readFileSync(imagePath);

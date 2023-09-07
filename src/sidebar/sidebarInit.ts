@@ -6,4 +6,9 @@ export function sidebarInit(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider("cec-sidebar-main", sidebarPanel)
 	);
+	vscode.workspace.onDidChangeConfiguration((event) => {
+		if (event.affectsConfiguration('cec-ide-sidebar')) {
+			sidebarPanel.reloadWebview();
+		}
+	});
 }

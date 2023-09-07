@@ -5,7 +5,7 @@ export function adolescentModeInit(context: vscode.ExtensionContext) {
   const adolescentModeConfig = vscode.workspace.getConfiguration('cec-ide-adolescentMode');
   const adolescentModeEnabled = adolescentModeConfig.get('enabled');
   if (adolescentModeEnabled) {
-    main(context, adolescentModeConfig);
+    main(context);
   } else {
     // 没有勾选则提示开启青少年模式
     promptToActivateYouthMode(context, adolescentModeConfig);
@@ -23,7 +23,7 @@ function promptToActivateYouthMode(context: vscode.ExtensionContext, adolescentM
     ).then((selectedAction) => {
       if (selectedAction === openAction) {
         adolescentModeConfig.update('enabled', true, vscode.ConfigurationTarget.Global);
-        main(context, adolescentModeConfig);
+        main(context);
       } else if (selectedAction === neverShowAgainAction) {
         adolescentModeConfig.update('turnOffActivationReminder', true, vscode.ConfigurationTarget.Global);
       }
@@ -31,9 +31,14 @@ function promptToActivateYouthMode(context: vscode.ExtensionContext, adolescentM
   }
 }
 
-function main(context: vscode.ExtensionContext, adolescentModeConfig: vscode.WorkspaceConfiguration) {
+function main(context: vscode.ExtensionContext) {
   // 初始化青少年模式状态栏
   const statusBar = new AdolescentStatusBar(context);
+  vscode.workspace.onDidChangeConfiguration((event) => {
+    if (event.affectsConfiguration('cec-ide-adolescentMode')) {
+      statusBar.reload();
+    }
+  });
 }
 
 

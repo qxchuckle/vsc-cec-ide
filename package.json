@@ -142,7 +142,7 @@
         "cec-ide-adolescentMode.enabled": {
           "type": "boolean",
           "default": true,
-          "description": "开启青少年防沉迷模式"
+          "description": "开启青少年防沉迷模式(需重启编辑器)"
         },
         "cec-ide-adolescentMode.antiAddictionTime": {
           "type": "number",
