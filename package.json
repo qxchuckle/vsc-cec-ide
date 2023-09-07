@@ -66,6 +66,10 @@
       {
         "command": "cec-ide.resetSensitiveWordsFile",
         "title": "CEC-ResetSensitiveWordsFile"
+      },
+      {
+        "command": "cec-ide.antiAddictionRemind",
+        "title": "临时开启或关闭防沉迷检测"
       }
     ],
     "menus": {

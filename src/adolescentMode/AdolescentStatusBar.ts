@@ -21,10 +21,21 @@ class AdolescentStatusBar {
   }
 
   private statusBarInit() {
-    // this.statusBar.command = '';
+    this.statusBar.command = 'cec-ide.antiAddictionRemind';
     this.statusBar.text = '';
-    this.statusBar.tooltip = '今日编辑器使用时间';
+    this.statusBar.tooltip = '点击临时关闭防沉迷检测';
     this.statusBar.show();
+    this._context.subscriptions.push(vscode.commands.registerCommand('cec-ide.antiAddictionRemind', () => {
+      this.antiAddictionRemind = !this.antiAddictionRemind;
+      if(this.antiAddictionRemind){
+        this.formatActiveTime();
+        vscode.window.showInformationMessage('已开启防沉迷提醒');
+        this.statusBar.tooltip = '点击临时关闭防沉迷检测';
+      }else{
+        vscode.window.showInformationMessage('已临时关闭防沉迷检测');
+        this.statusBar.tooltip = '点击开启防沉迷检测';
+      }
+    }));
   }
 
   private timeInit() {
@@ -43,7 +54,7 @@ class AdolescentStatusBar {
   private intervalInit() {
     this.timer = setInterval(() => {
       this.updateStatus();
-    }, 60 * 1000);
+    }, 3000);
   }
 
   private updateStatus() {
@@ -75,6 +86,8 @@ class AdolescentStatusBar {
           vscode.commands.executeCommand('workbench.action.closeWindow');
         } else if (selectedAction === antiAddictionAction) {
           this.antiAddictionRemind = false;
+          vscode.window.showInformationMessage('已临时关闭防沉迷检测');
+          this.statusBar.tooltip = '点击开启防沉迷检测';
         }
       });
     }
