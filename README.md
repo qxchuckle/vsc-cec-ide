@@ -25,6 +25,8 @@
 
 ### 1、敏感词检测 
 
+> 独立的敏感词检测插件：[sensitive-word-detection](https://github.com/qxchuckle/sensitive-word-detection) 是本插件敏感词检测功能的独立版本
+
 在任意文件，右键，点击敏感词检测，将会持续检测该文件是否有敏感词，若文件关闭或没有敏感词，则停止检测。右键点击停止检测敏感词可以手动停止检测。即使换行(最多隔一行)且隔着干扰字符也能检测到。
 
 **快捷键:** `alt+shift+m` 检测，`alt+shift+n` 停止检测。
