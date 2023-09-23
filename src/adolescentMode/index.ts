@@ -100,8 +100,9 @@ class AdolescentStatusBar {
   }
 
   private updateStatus() {
-    if (this.numberOfSynchronizations < 2) {
-      this.activeTime = this.globalState.get('cec-ide-activeTime') || 0;// 同步2次
+    if (this.numberOfSynchronizations < 1) {
+      this.activeTime = this.globalState.get('cec-ide-activeTime') || 0;// 同步1次
+      this.numberOfSynchronizations++;
     }
     this.activeTime++;
     this.globalState.update('cec-ide-activeTime', this.activeTime);
