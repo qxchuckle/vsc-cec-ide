@@ -2,7 +2,7 @@
 
 2023国庆期间VSCode、部分微软官网、Vercel等被反诈拦截
 
-![反诈拦截](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/a219e4fb-35fa-40b4-aefb-371c5fc59c19)
+![769DFA0259F39B416BCAD9A02D23](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/22836b2a-f892-417a-ac17-6957495f13d3)
 
 国产化你的VSCode，附带敏感词检测、防沉迷等功能
 
