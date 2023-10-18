@@ -1,9 +1,4 @@
 # CEC-IDE
-
-2023国庆期间VSCode、部分微软官网、Vercel等被反诈拦截
-
-![769DFA0259F39B416BCAD9A02D23](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/22836b2a-f892-417a-ac17-6957495f13d3)
-
 国产化你的VSCode，附带敏感词检测、防沉迷等功能
 
 ![image](https://github.com/qxchuckle/vsc-cec-ide/assets/55614189/e78c4a3a-f8b7-47d0-9971-fdc4ffff2ed8)
