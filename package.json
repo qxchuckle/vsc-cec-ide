@@ -145,7 +145,7 @@
         },
         "cec-ide-adolescentMode.enabled": {
           "type": "boolean",
-          "default": true,
+          "default": false,
           "description": "开启青少年防沉迷模式(需重启编辑器)"
         },
         "cec-ide-adolescentMode.antiAddictionTime": {
@@ -155,7 +155,7 @@
         },
         "cec-ide-adolescentMode.turnOffActivationReminder": {
           "type": "boolean",
-          "default": false,
+          "default": true,
           "description": "永久关闭提醒开启青少年模式的弹窗"
         },
         "cec-ide-adolescentMode.turnOffAntiAddictionReminder": {
