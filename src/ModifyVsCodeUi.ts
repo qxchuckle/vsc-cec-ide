@@ -15,7 +15,7 @@ export function modifyVsCodeUI(context: vscode.ExtensionContext) {
 }
 
 async function injectionCSS(context: vscode.ExtensionContext) {
-	const cssName: string = vscode.version >= "1.38" ? 'workbench.desktop.main.css' : 'workbench.main.css';
+	const cssName: string = vscode.version === undefined || vscode.version >= "1.38" ? 'workbench.desktop.main.css' : 'workbench.main.css';
 	const vscodePath = vscode.env.appRoot;
 	const cssPath = path.join(vscodePath, 'out', 'vs', 'workbench', cssName);
 	const backupCssName = 'workbench.desktop.main.backups.css';
@@ -113,7 +113,7 @@ async function injectionCSS(context: vscode.ExtensionContext) {
 
 function restoreCSS() {
 	const vscodePath = vscode.env.appRoot;
-	const cssName: string = vscode.version >= "1.38" ? 'workbench.desktop.main.css' : 'workbench.main.css';
+	const cssName: string = vscode.version === undefined || vscode.version >= "1.38" ? 'workbench.desktop.main.css' : 'workbench.main.css';
 	const cssPath = path.join(vscodePath, 'out', 'vs', 'workbench', cssName);
 	const backupCssPath = path.join(vscodePath, 'out', 'vs', 'workbench', 'workbench.desktop.main.backups.css');
 
