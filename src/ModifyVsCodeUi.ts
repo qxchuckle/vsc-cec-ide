@@ -15,8 +15,18 @@ export function modifyVsCodeUI(context: vscode.ExtensionContext) {
 }
 
 async function injectionCSS(context: vscode.ExtensionContext) {
-	const cssName: string = vscode.version === undefined || vscode.version >= "1.38" ? 'workbench.desktop.main.css' : 'workbench.main.css';
 	const vscodePath = vscode.env.appRoot;
+	const possibleCssNames = [
+		'workbench.desktop.main.css',
+		'workbench.main.css'
+	];
+	let cssName = possibleCssNames.find(name =>
+		fs.existsSync(path.join(vscodePath, 'out', 'vs', 'workbench', name))
+	);
+	if (!cssName) {
+		vscode.window.showErrorMessage('无法定位 VS Code workbench CSS 文件，请联系开发者或升级插件。');
+		return;
+	}
 	const cssPath = path.join(vscodePath, 'out', 'vs', 'workbench', cssName);
 	const backupCssName = 'workbench.desktop.main.backups.css';
 	const backupCssPath = path.join(vscodePath, 'out', 'vs', 'workbench', backupCssName);
@@ -113,7 +123,17 @@ async function injectionCSS(context: vscode.ExtensionContext) {
 
 function restoreCSS() {
 	const vscodePath = vscode.env.appRoot;
-	const cssName: string = vscode.version === undefined || vscode.version >= "1.38" ? 'workbench.desktop.main.css' : 'workbench.main.css';
+	const possibleCssNames = [
+		'workbench.desktop.main.css',
+		'workbench.main.css'
+	];
+	let cssName = possibleCssNames.find(name =>
+		fs.existsSync(path.join(vscodePath, 'out', 'vs', 'workbench', name))
+	);
+	if (!cssName) {
+		vscode.window.showErrorMessage('无法定位 VS Code workbench CSS 文件，请联系开发者或升级插件。');
+		return;
+	}
 	const cssPath = path.join(vscodePath, 'out', 'vs', 'workbench', cssName);
 	const backupCssPath = path.join(vscodePath, 'out', 'vs', 'workbench', 'workbench.desktop.main.backups.css');
 
